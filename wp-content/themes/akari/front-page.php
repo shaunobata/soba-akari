@@ -124,6 +124,9 @@ $akari_night_img = (int) akari_field( 'akari_night_img', $akari_front );
 					<?php echo akari_text( (string) akari_field( 'akari_night_text', $akari_front ) ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
 					<?php if ( $akari_night ) : ?>
 						<p class="daynight__more"><?php echo akari_more_link( $akari_night, '夜の楽しみ方とコースを見る', 'more-link--on-night' ); // phpcs:ignore WordPress.Security.EscapeOutput ?></p>
+					<?php elseif ( $akari_menu ) : ?>
+						<?php /* 夜の楽しみ方を出していない間は、夜のお品書きへ */ ?>
+						<p class="daynight__more"><?php echo akari_more_link( $akari_menu . '#otsumami', '夜のお品書きを見る', 'more-link--on-night' ); // phpcs:ignore WordPress.Security.EscapeOutput ?></p>
 					<?php endif; ?>
 				</div>
 			</article>
@@ -175,8 +178,8 @@ $akari_night_img = (int) akari_field( 'akari_night_img', $akari_front );
 	</div>
 </section>
 
-<?php /* 3 夜のコース（D1未定でコースがなければ出さない） */ ?>
-<?php if ( $akari_courses ) : ?>
+<?php /* 3 夜のコース（D1未定でコースがなければ出さない。夜の楽しみ方を公開するまでは出さない） */ ?>
+<?php if ( $akari_courses && $akari_night ) : ?>
 	<section class="section section--night section--peak" aria-labelledby="top-course">
 		<div class="container">
 			<h2 class="section-title" id="top-course">夜のコース</h2>

@@ -315,6 +315,38 @@ time { font-variant-numeric: tabular-nums; }
 	white-space: nowrap;
 }
 
+/* Instagram（ロゴの隣）。SPはアイコンだけ、1280px以上で文字も出す */
+.site-logo { margin-right: 0; }
+.header-insta {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: var(--space-1);
+	min-width: 44px;
+	min-height: 44px;
+	margin-right: auto;
+	color: var(--color-ink);
+	font-size: var(--fs-xs);
+	white-space: nowrap;
+	text-decoration: none;
+}
+.header-insta .icon { width: 22px; height: 22px; }
+.header-insta__label { display: none; }
+@media (max-width: 399px) {
+	.site-logo__text { font-size: 1rem; letter-spacing: 0.06em; }
+	.site-header__inner { gap: var(--space-1); }
+}
+@media (min-width: 1024px) {
+	.header-insta { margin-right: 0; }
+}
+@media (min-width: 1280px) {
+	.header-insta { padding-inline: var(--space-2); }
+	.header-insta__label { display: inline; }
+}
+@media (hover: hover) {
+	.header-insta:hover .header-insta__label { text-decoration: underline; }
+}
+
 .header-icon {
 	display: inline-flex;
 	flex-direction: column;

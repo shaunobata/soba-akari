@@ -26,6 +26,14 @@ $akari_nav = akari_nav_items();
 			<span class="site-logo__text"><?php echo esc_html( akari_store( 'name' ) ); ?></span>
 		</a>
 
+		<?php if ( akari_store( 'instagram_url' ) ) : ?>
+			<a class="header-insta" href="<?php echo esc_url( akari_store( 'instagram_url' ) ); ?>" target="_blank" rel="noopener" data-track="sns" data-location="header">
+				<?php echo akari_icon( 'instagram' ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
+				<span class="header-insta__label">Instagram</span>
+				<span class="screen-reader-text">（新しいタブで開きます）</span>
+			</a>
+		<?php endif; ?>
+
 		<?php if ( $akari_nav ) : ?>
 			<nav class="global-nav" aria-label="メインメニュー">
 				<ul>

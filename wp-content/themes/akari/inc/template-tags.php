@@ -44,6 +44,7 @@ function akari_icon( string $name ): string {
 		'menu'     => '<path d="M4 7h16M4 12h16M4 17h16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>',
 		'close'    => '<path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>',
 		'map'      => '<path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="9.5" r="2.5" fill="currentColor"/>',
+		'instagram' => '<rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.3" cy="6.7" r="1.2" fill="currentColor"/>',
 		'lamp'     => '<path d="M12 2v3M8 5h8l-1 3H9zM7.5 8h9a1.5 1.5 0 0 1 1.5 1.5v8a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 6 17.5v-8A1.5 1.5 0 0 1 7.5 8zM10 19v3h4v-3" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M12 11.5c1.2 1.2 1.6 2.2 1.6 3a1.6 1.6 0 0 1-3.2 0c0-.8.4-1.8 1.6-3z" fill="currentColor"/>',
 	);
 	return '<svg class="icon icon--' . esc_attr( $name ) . '" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false">' . ( $paths[ $name ] ?? '' ) . '</svg>';
@@ -215,14 +216,16 @@ function akari_main_visual_ids(): array {
 	);
 }
 
-/** グローバルナビの項目（U-02）。こだわりは公開している場合だけ。 */
+/**
+ * グローバルナビの項目（U-02）。公開しているページだけ出す。
+ * 夜の楽しみ方はコース（D1）が決まるまでナビから外す（2026-10-31 店主依頼。ページのファイルは残す）。
+ */
 function akari_nav_items(): array {
 	$items = array(
 		'menu'   => 'お品書き',
-		'night'  => '夜の楽しみ方',
+		'about'  => 'こだわり',
 		'party'  => '宴会・貸切',
 		'access' => '店舗情報',
-		'about'  => 'こだわり',
 	);
 	$list = array();
 	foreach ( $items as $slug => $label ) {

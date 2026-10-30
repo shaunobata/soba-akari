@@ -135,6 +135,8 @@ function akari_setup_pages(): array {
 		'night'   => array(
 			'title'   => '夜の楽しみ方とコース',
 			'order'   => 2,
+			// コース（D1）が決まるまでは下書きで作る。公開すればナビ・各ページのリンクに自動で出る
+			'status'  => 'draft',
 			'content' => "<!-- wp:paragraph -->\n<p>燈りの夜は、天ぷら・かき揚げや蕎麦前（酒のつまみ）を日本酒・蕎麦焼酎と楽しみ、手打ちの蕎麦で締める時間です。お一人様も、ご夫婦でのお食事も、どうぞゆっくりお過ごしください。</p>\n<!-- /wp:paragraph -->",
 			'meta'    => array(
 				'akari_seo_title'  => '夜の楽しみ方とコース｜手打そば 燈り 三鷹',
