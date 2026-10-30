@@ -1,0 +1,15 @@
+/* akari editor.css：固定ページのブロックエディタを表側の見た目に近づける */
+body {
+	background: #f5f0e6;
+	color: #1e1c19;
+	font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Yu Gothic UI", "Meiryo", sans-serif;
+	font-size: 17px;
+	line-height: 1.7;
+}
+h1, h2, h3, h4,
+.editor-post-title__input {
+	font-family: "Hiragino Mincho ProN", "Yu Mincho", "YuMincho", "Noto Serif JP", serif;
+	font-weight: 600;
+	line-height: 1.4;
+}
+a { color: #1e1c19; }

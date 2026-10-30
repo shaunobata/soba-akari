@@ -1,0 +1,10 @@
+# WordPress本体・アップロード・ほかのプラグインは管理しない（テーマと mu-plugin だけ）
+wp-config.php
+wp-content/uploads/
+wp-content/plugins/
+wp-content/upgrade/
+wp-content/cache/
+*.log
+.DS_Store
+Thumbs.db
+desktop.ini

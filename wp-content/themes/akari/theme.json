@@ -1,0 +1,40 @@
+{
+	"$schema": "https://schemas.wp.org/wp/6.6/theme.json",
+	"version": 3,
+	"settings": {
+		"appearanceTools": false,
+		"color": {
+			"custom": false,
+			"customGradient": false,
+			"defaultPalette": false,
+			"defaultGradients": false,
+			"defaultDuotone": false,
+			"duotone": [],
+			"gradients": [],
+			"palette": [
+				{ "slug": "ink", "name": "墨", "color": "#1e1c19" },
+				{ "slug": "bg", "name": "生成り", "color": "#f5f0e6" },
+				{ "slug": "accent", "name": "琥珀", "color": "#d9973a" }
+			]
+		},
+		"typography": {
+			"customFontSize": false,
+			"defaultFontSizes": false,
+			"dropCap": false,
+			"fontStyle": false,
+			"fontWeight": false,
+			"letterSpacing": false,
+			"textDecoration": false,
+			"textTransform": false
+		},
+		"spacing": {
+			"customSpacingSize": false,
+			"padding": false,
+			"margin": false
+		},
+		"layout": {
+			"contentSize": "680px",
+			"wideSize": "1120px"
+		}
+	}
+}
