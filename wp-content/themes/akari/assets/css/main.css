@@ -267,6 +267,7 @@ time { font-variant-numeric: tabular-nums; }
 	border-right: 2px solid currentColor;
 	transform: rotate(45deg);
 }
+.more-link--down::after { transform: translateY(-0.15em) rotate(135deg); }
 .section-more { margin-top: var(--space-5); }
 .section-more .more-link + .more-link { margin-left: var(--space-5); }
 
@@ -655,6 +656,7 @@ time { font-variant-numeric: tabular-nums; }
 .hero__times li:nth-child(2) .hero__times-label { background: var(--color-accent); border-color: var(--color-accent); color: var(--color-on-accent); }
 .hero__times-closed { font-size: var(--fs-xs) !important; font-weight: 400 !important; color: var(--color-on-night-sub); }
 .hero .cta { margin-bottom: 0; }
+.hero__anchor { margin: var(--space-3) 0 0; font-size: var(--fs-xs); }
 @media (min-width: 768px) {
 	.hero__media { aspect-ratio: 16 / 9; max-height: calc(100vh - var(--header-h)); width: 100%; }
 	.hero__media::after { display: none; }
@@ -1056,6 +1058,9 @@ time { font-variant-numeric: tabular-nums; }
 	.party-summary__cta .cta-note { margin: 0; }
 }
 
+/* 店舗情報の「宴会・貸切のご相談」 */
+.party-info .party-summary { margin-top: 0; margin-bottom: var(--space-6); }
+.party-sub { font-size: var(--fs-m); margin-top: var(--space-6); }
 .seat-media { display: grid; gap: var(--space-4); margin-bottom: var(--space-5); }
 .seat-media figure { margin: 0; border-radius: var(--radius-m); overflow: hidden; }
 .seat-media figcaption { font-size: var(--fs-xs); color: var(--color-ink-sub); padding-top: var(--space-2); }

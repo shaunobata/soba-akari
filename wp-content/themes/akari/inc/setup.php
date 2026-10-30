@@ -73,6 +73,11 @@ add_action(
 			wp_safe_redirect( home_url( '/' ), 301 );
 			exit;
 		}
+		// 廃止した宴会・貸切のページ（/party/）は、トップの宴会セクションへ
+		if ( is_404() && 'party' === trim( (string) wp_parse_url( (string) $_SERVER['REQUEST_URI'], PHP_URL_PATH ), '/' ) ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput
+			wp_safe_redirect( home_url( '/#party' ), 301 );
+			exit;
+		}
 	}
 );
 

@@ -219,12 +219,12 @@ function akari_main_visual_ids(): array {
 /**
  * グローバルナビの項目（U-02）。公開しているページだけ出す。
  * 夜の楽しみ方はコース（D1）が決まるまでナビから外す（2026-10-31 店主依頼。ページのファイルは残す）。
+ * 宴会・貸切のページは廃止（2026-10-31 店主依頼。案内はトップと店舗情報の #party）。
  */
 function akari_nav_items(): array {
 	$items = array(
 		'menu'   => 'お品書き',
 		'about'  => 'こだわり',
-		'party'  => '宴会・貸切',
 		'access' => '店舗情報',
 	);
 	$list = array();

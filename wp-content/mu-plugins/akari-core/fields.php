@@ -87,7 +87,7 @@ function akari_page_fields( int $post_id ): array {
 			'akari_lunch_img'  => array( 'label' => '1.5 昼の写真（蕎麦）', 'type' => 'image' ),
 			'akari_night_text' => array( 'label' => '1.5 夜の燈りの文', 'type' => 'textarea', 'rows' => 3 ),
 			'akari_night_img'  => array( 'label' => '1.5 夜の写真（天ぷら・酒）', 'type' => 'image' ),
-			'akari_party_text' => array( 'label' => '2 宴会・会食・貸切の文', 'type' => 'textarea', 'rows' => 3 ),
+			'akari_party_text' => array( 'label' => '2 宴会・会食・貸切のリード文', 'type' => 'textarea', 'rows' => 3 ),
 			'akari_party_img'  => array( 'label' => '2 席の引きの写真', 'type' => 'image' ),
 			'akari_picks'      => array(
 				'label'  => '4 夜のおすすめ3品',
@@ -138,11 +138,21 @@ function akari_page_fields( int $post_id ): array {
 			'akari_sake_img'   => array( 'label' => '5 酒の写真', 'type' => 'image' ),
 			'akari_party_lead' => array( 'label' => '7 宴会への案内', 'type' => 'textarea', 'rows' => 2 ),
 		),
-		'party'   => array(
-			'akari_layout_img'   => array( 'label' => '3 席配置図', 'type' => 'image' ),
-			'akari_seat_img'     => array( 'label' => '3 席の写真', 'type' => 'image' ),
+		// 宴会・貸切のページは廃止し（2026-10-31 店主依頼）、席・貸切・よくある質問は店舗情報ページの「宴会・貸切のご相談」に出す
+		'access'  => array(
+			'akari_route'        => array(
+				'label'  => '4 三鷹駅北口からの道順',
+				'type'   => 'rows',
+				'count'  => 3,
+				'fields' => array(
+					'image' => array( 'label' => '目印の写真（4:3）', 'type' => 'image' ),
+					'text'  => array( 'label' => '説明', 'type' => 'textarea', 'rows' => 2 ),
+				),
+			),
+			'akari_layout_img'   => array( 'label' => '5 宴会・貸切：席配置図', 'type' => 'image' ),
+			'akari_seat_img'     => array( 'label' => '5 宴会・貸切：席の写真', 'type' => 'image' ),
 			'akari_seat_guide'   => array(
-				'label'  => '4 人数別のおすすめ席',
+				'label'  => '5 宴会・貸切：人数別のおすすめ席',
 				'type'   => 'rows',
 				'count'  => 5,
 				'fields' => array(
@@ -150,25 +160,14 @@ function akari_page_fields( int $post_id ): array {
 					'seats'  => array( 'label' => '使う卓', 'type' => 'text', 'max' => 30 ),
 				),
 			),
-			'akari_private_text' => array( 'label' => '6 貸切の条件（D3）', 'type' => 'textarea', 'rows' => 3, 'help' => '空なら店舗情報の「貸切」の値を出します' ),
+			'akari_private_text' => array( 'label' => '5 宴会・貸切：貸切の条件（D3）', 'type' => 'textarea', 'rows' => 3, 'help' => '空なら店舗情報の「貸切」の値を出します' ),
 			'akari_faq'          => array(
-				'label'  => '8 よくある質問',
+				'label'  => '5 宴会・貸切：よくある質問',
 				'type'   => 'rows',
 				'count'  => 6,
 				'fields' => array(
 					'q' => array( 'label' => '質問', 'type' => 'text' ),
-					'a' => array( 'label' => '回答（「お願い」の形で）', 'type' => 'textarea', 'rows' => 2 ),
-				),
-			),
-		),
-		'access'  => array(
-			'akari_route' => array(
-				'label'  => '4 三鷹駅北口からの道順',
-				'type'   => 'rows',
-				'count'  => 3,
-				'fields' => array(
-					'image' => array( 'label' => '目印の写真（4:3）', 'type' => 'image' ),
-					'text'  => array( 'label' => '説明', 'type' => 'textarea', 'rows' => 2 ),
+					'a' => array( 'label' => '回答（「お願い」の形で）', 'type' => 'textarea', 'rows' => 2, 'help' => '回答が空の質問は出しません' ),
 				),
 			),
 		),

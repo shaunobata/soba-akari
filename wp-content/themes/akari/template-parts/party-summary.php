@@ -1,6 +1,6 @@
 <?php
 /**
- * 幹事向けの要点ボックス（U-13）。宴会ページのH1直下。
+ * 幹事向けの要点ボックス（U-13）。店舗情報ページの「宴会・貸切のご相談」（#party）の先頭。
  * 未定の項目は「ご相談ください」とし、行は消さない（幹事が聞くべき項目だと分かるように）。
  */
 
@@ -32,7 +32,7 @@ $akari_items = array(
 );
 ?>
 <section class="party-summary" aria-labelledby="party-summary-title">
-	<h2 class="party-summary__title" id="party-summary-title">幹事様へ：要点のまとめ</h2>
+	<h3 class="party-summary__title" id="party-summary-title">幹事様へ：要点のまとめ</h3>
 	<dl class="party-summary__list">
 		<?php foreach ( $akari_items as $akari_term => $akari_desc ) : ?>
 			<?php

@@ -6,7 +6,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-/** page_type：top／menu／night／party／access／news／about／review／privacy／404 */
+/** page_type：top／menu／night／access／news／about／review／privacy／404 */
 function akari_page_type(): string {
 	if ( is_404() ) {
 		return '404';
@@ -19,7 +19,7 @@ function akari_page_type(): string {
 	}
 	if ( is_page() ) {
 		$slug = get_post_field( 'post_name', get_queried_object_id() );
-		if ( in_array( $slug, array( 'menu', 'night', 'party', 'access', 'about', 'review', 'privacy' ), true ) ) {
+		if ( in_array( $slug, array( 'menu', 'night', 'access', 'about', 'review', 'privacy' ), true ) ) {
 			return $slug;
 		}
 	}

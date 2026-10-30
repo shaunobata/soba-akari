@@ -17,7 +17,7 @@ $akari_mv      = akari_main_visual_ids();
 $akari_catch   = (string) akari_field( 'akari_catch', $akari_front );
 $akari_menu    = akari_page_url( 'menu' );
 $akari_night   = akari_page_url( 'night' );
-$akari_party   = akari_page_url( 'party' );
+$akari_access  = akari_page_url( 'access' );
 $akari_courses = akari_get_courses( 'night' );
 $akari_monthly = akari_get_monthly( 1 );
 $akari_picks   = akari_rows( 'akari_picks', 'title', $akari_front );
@@ -79,6 +79,7 @@ $akari_times = array_filter(
 			</ul>
 		<?php endif; ?>
 		<?php get_template_part( 'template-parts/cta-buttons', null, array( 'compact' => true ) ); ?>
+		<p class="hero__anchor"><a class="more-link more-link--down" href="#party">ご宴会・貸切のご相談</a></p>
 	</div>
 </section>
 
@@ -134,8 +135,8 @@ $akari_night_img = (int) akari_field( 'akari_night_img', $akari_front );
 	</div>
 </section>
 
-<?php /* 2 宴会・会食・貸切 */ ?>
-<section class="section section--night section--party" aria-labelledby="top-party">
+<?php /* 2 宴会・会食・貸切（宴会ページは廃止。ヒーローのアンカーリンク #party の行き先。詳しい条件は店舗情報の #party へ） */ ?>
+<section class="section section--night section--party" id="party" aria-labelledby="top-party">
 	<div class="container split">
 		<?php $akari_party_img = (int) akari_field( 'akari_party_img', $akari_front ); ?>
 		<?php if ( $akari_party_img ) : ?>
@@ -146,6 +147,7 @@ $akari_night_img = (int) akari_field( 'akari_night_img', $akari_front );
 		<div class="split__body">
 			<p class="section-eyebrow">会食・宴会の幹事様へ</p>
 			<h2 class="section-title" id="top-party">宴会・会食・貸切</h2>
+			<?php echo akari_text( (string) akari_field( 'akari_party_text', $akari_front ) ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
 			<ul class="fact-list">
 				<?php if ( akari_store( 'seats_total' ) ) : ?>
 					<li><span class="fact-list__num"><?php echo esc_html( (string) akari_store( 'seats_total' ) ); ?></span>席</li>
@@ -160,9 +162,8 @@ $akari_night_img = (int) akari_field( 'akari_night_img', $akari_front );
 					<li><?php echo esc_html( akari_store( 'smoking' ) ); ?></li>
 				<?php endif; ?>
 			</ul>
-			<?php echo akari_text( (string) akari_field( 'akari_party_text', $akari_front ) ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
-			<?php if ( $akari_party ) : ?>
-				<p class="section-more"><?php echo akari_more_link( $akari_party, '宴会・貸切のご案内を見る' ); // phpcs:ignore WordPress.Security.EscapeOutput ?></p>
+			<?php if ( $akari_access ) : ?>
+				<p class="section-more"><?php echo akari_more_link( $akari_access . '#party', '席・貸切の詳しいご案内を見る' ); // phpcs:ignore WordPress.Security.EscapeOutput ?></p>
 			<?php endif; ?>
 			<?php
 			get_template_part(

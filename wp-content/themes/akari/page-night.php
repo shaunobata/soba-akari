@@ -94,12 +94,12 @@ while ( have_posts() ) :
 		</div>
 	</section>
 
-	<?php if ( akari_page_url( 'party' ) ) : ?>
+	<?php if ( akari_page_url( 'access' ) ) : ?>
 		<section class="section section--surface" aria-labelledby="night-party">
 			<div class="container container--narrow">
 				<h2 class="section-title" id="night-party">会食・宴会のご案内</h2>
 				<?php echo akari_text( (string) akari_field( 'akari_party_lead' ) ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
-				<p class="section-more"><?php echo akari_more_link( akari_page_url( 'party' ), '宴会・貸切のご案内を見る' ); // phpcs:ignore WordPress.Security.EscapeOutput ?></p>
+				<p class="section-more"><?php echo akari_more_link( akari_page_url( 'access' ) . '#party', '宴会・貸切のご相談を見る' ); // phpcs:ignore WordPress.Security.EscapeOutput ?></p>
 			</div>
 		</section>
 	<?php endif; ?>
