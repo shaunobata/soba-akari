@@ -3,7 +3,8 @@
  * 電話ボタンとネット予約ボタンの組（U-05・U-06、F-01・F-02）。
  * 電話ボタンのすぐ下に受付時間、本文用ではネット予約の補足を出す。
  *
- * 引数：location（header／fixed_bar／body／footer）、tel_label、course（data-course）、reserve（ネット予約を出すか）
+ * 引数：location（header／fixed_bar／body／footer）、tel_label、course（data-course）、reserve（ネット予約を出すか）、
+ * compact（ヒーロー用。注記を電話受付の1行だけにする。ネット予約の「新しいタブで開きます」の読み上げはボタン側に残る）
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -15,6 +16,7 @@ $akari_args = wp_parse_args(
 		'tel_label' => '電話する',
 		'course'    => '',
 		'reserve'   => true,
+		'compact'   => false,
 	)
 );
 
@@ -42,7 +44,7 @@ if ( ! $akari_tel && ! $akari_reserve ) {
 			<?php if ( akari_tel_note() ) : ?>
 				<p class="cta-note"><?php echo esc_html( akari_tel_note() ); ?></p>
 			<?php endif; ?>
-			<?php if ( $akari_reserve ) : ?>
+			<?php if ( $akari_reserve && ! $akari_args['compact'] ) : ?>
 				<p class="cta-note">受付時間外はネット予約をご利用ください</p>
 			<?php endif; ?>
 		</div>
@@ -50,7 +52,9 @@ if ( ! $akari_tel && ! $akari_reserve ) {
 	<?php if ( $akari_reserve ) : ?>
 		<div class="cta__item">
 			<?php echo $akari_reserve; // phpcs:ignore WordPress.Security.EscapeOutput ?>
-			<p class="cta-note">食べログの予約ページが開きます</p>
+			<?php if ( ! $akari_args['compact'] ) : ?>
+				<p class="cta-note">食べログの予約ページが開きます</p>
+			<?php endif; ?>
 		</div>
 	<?php endif; ?>
 </div>

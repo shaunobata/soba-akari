@@ -5,6 +5,7 @@
  * 昼も夜も営業していることを最初に見せるため、1の直後に「昼の燈り・夜の燈り」（1.5）を置き、
  * 旧セクション8（昼の燈り）はそこへまとめた（夜のカードを大きく扱う）。
  * 本文中の予約ボタンはセクション1・2・9の3か所だけ。条件を満たさない3・5・6・7・10は出さない。
+ * 1〜4は夜の地で通し、5以降で生成りに戻す（2026-10-30 デザイン刷新方針 第1段。セクションの順は変えていない）。
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -61,7 +62,11 @@ $akari_times = array_filter(
 	<div class="hero__body container">
 		<h1 class="hero__title"><?php echo esc_html( akari_store( 'name' ) ); ?><span>三鷹駅北口の蕎麦屋</span></h1>
 		<?php if ( $akari_catch ) : ?>
-			<p class="hero__catch"><?php echo esc_html( $akari_catch ); ?></p>
+			<p class="hero__catch"><?php echo akari_phrases( $akari_catch ); // phpcs:ignore WordPress.Security.EscapeOutput ?></p>
+		<?php endif; ?>
+		<?php if ( ! $akari_mv['sp'] && akari_hours( 'dinner' ) ) : ?>
+			<?php /* 写真がない間だけPCの右側に添える飾り。同じ時間は下の一覧にあるので読み上げない */ ?>
+			<p class="hero__vertical" aria-hidden="true"><span>夜</span><?php echo esc_html( akari_hours( 'dinner' ) ); ?></p>
 		<?php endif; ?>
 		<?php if ( $akari_times ) : ?>
 			<ul class="hero__times">
@@ -73,7 +78,7 @@ $akari_times = array_filter(
 				<?php endif; ?>
 			</ul>
 		<?php endif; ?>
-		<?php get_template_part( 'template-parts/cta-buttons' ); ?>
+		<?php get_template_part( 'template-parts/cta-buttons', null, array( 'compact' => true ) ); ?>
 	</div>
 </section>
 
@@ -82,7 +87,7 @@ $akari_times = array_filter(
 $akari_lunch_img = (int) akari_field( 'akari_lunch_img', $akari_front );
 $akari_night_img = (int) akari_field( 'akari_night_img', $akari_front );
 ?>
-<section class="section daynight" aria-labelledby="top-daynight">
+<section class="section section--night section--peak daynight" aria-labelledby="top-daynight">
 	<div class="container">
 		<h2 class="section-title" id="top-daynight">昼も、夜も</h2>
 		<div class="daynight__grid">
@@ -127,7 +132,7 @@ $akari_night_img = (int) akari_field( 'akari_night_img', $akari_front );
 </section>
 
 <?php /* 2 宴会・会食・貸切 */ ?>
-<section class="section section--party" aria-labelledby="top-party">
+<section class="section section--night section--party" aria-labelledby="top-party">
 	<div class="container split">
 		<?php $akari_party_img = (int) akari_field( 'akari_party_img', $akari_front ); ?>
 		<?php if ( $akari_party_img ) : ?>
@@ -172,7 +177,7 @@ $akari_night_img = (int) akari_field( 'akari_night_img', $akari_front );
 
 <?php /* 3 夜のコース（D1未定でコースがなければ出さない） */ ?>
 <?php if ( $akari_courses ) : ?>
-	<section class="section section--night" aria-labelledby="top-course">
+	<section class="section section--night section--peak" aria-labelledby="top-course">
 		<div class="container">
 			<h2 class="section-title" id="top-course">夜のコース</h2>
 			<?php
@@ -195,15 +200,15 @@ $akari_night_img = (int) akari_field( 'akari_night_img', $akari_front );
 
 <?php /* 4 夜のおすすめ3品 */ ?>
 <?php if ( $akari_picks ) : ?>
-	<section class="section" aria-labelledby="top-picks">
+	<section class="section section--night" aria-labelledby="top-picks">
 		<div class="container">
 			<h2 class="section-title" id="top-picks">夜のおすすめ</h2>
 			<ul class="pick-list">
 				<?php foreach ( $akari_picks as $akari_pick ) : ?>
-					<li class="pick">
+					<li class="pick<?php echo empty( $akari_pick['image'] ) ? ' is-text-only' : ''; ?>">
 						<?php if ( ! empty( $akari_pick['image'] ) ) : ?>
 							<div class="pick__img ratio-4-3">
-								<?php echo akari_img( (int) $akari_pick['image'], '(min-width: 1024px) 33vw, (min-width: 768px) 33vw, 100vw' ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
+								<?php echo akari_img( (int) $akari_pick['image'], '(min-width: 768px) 60vw, 78vw' ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
 							</div>
 						<?php endif; ?>
 						<h3 class="pick__title"><?php echo esc_html( $akari_pick['title'] ); ?></h3>

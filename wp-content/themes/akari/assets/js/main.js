@@ -1,6 +1,6 @@
 /**
  * akari main.js（詳細設計書9.6）
- * 役割はハンバーガーの開閉、固定バーの表示切り替え、地図の遅延読み込みの3つ（＋よくある質問の初期状態）。
+ * 役割はハンバーガーの開閉、固定バーの表示切り替え、スクロールでの表示、地図の遅延読み込み（＋よくある質問の初期状態）。
  * 計測はGTMが data-track を拾うので、ここでは何もしない。
  */
 (function () {
@@ -79,20 +79,52 @@
 		});
 	}
 
-	/* 固定バー（U-04）：入力欄にフォーカスしている間は隠す。今は公開側に入力欄がないため通常は動かない。 */
+	/* 固定バー（U-04）：入力欄にフォーカスしている間と、トップでヒーローの電話・ネット予約が見えている間は隠す。
+	   隠すのは transform だけで、body の下の余白は残す。 */
 	var bar = document.querySelector('.fixed-cta');
 	if (bar) {
+		var hiddenBy = { field: false, hero: false };
+		var updateBar = function () {
+			bar.classList.toggle('is-hidden', hiddenBy.field || hiddenBy.hero);
+		};
 		var isField = function (el) {
 			return el && /^(INPUT|TEXTAREA|SELECT)$/.test(el.tagName);
 		};
 		document.addEventListener('focusin', function (e) {
 			if (isField(e.target)) {
-				bar.classList.add('is-hidden');
+				hiddenBy.field = true;
+				updateBar();
 			}
 		});
 		document.addEventListener('focusout', function (e) {
 			if (isField(e.target)) {
-				bar.classList.remove('is-hidden');
+				hiddenBy.field = false;
+				updateBar();
+			}
+		});
+		var heroCta = document.querySelector('.hero .cta');
+		if (heroCta && 'IntersectionObserver' in window) {
+			new IntersectionObserver(function (entries) {
+				hiddenBy.hero = entries[0].isIntersecting;
+				updateBar();
+			}).observe(heroCta);
+		}
+	}
+
+	/* スクロールで一度だけ表示（見出し・写真）。最初から画面内にあるものと、動きを減らす設定では何もしない。 */
+	if ('IntersectionObserver' in window && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+		var revealIo = new IntersectionObserver(function (entries) {
+			entries.forEach(function (entry) {
+				if (entry.isIntersecting) {
+					entry.target.classList.add('is-shown');
+					revealIo.unobserve(entry.target);
+				}
+			});
+		}, { rootMargin: '0px 0px -40px 0px' });
+		document.querySelectorAll('.site-main .section-title, .site-main .split__media, .pick, .daynight__card, .course-card').forEach(function (el) {
+			if (el.getBoundingClientRect().top > window.innerHeight) {
+				el.classList.add('reveal');
+				revealIo.observe(el);
 			}
 		});
 	}

@@ -77,11 +77,15 @@ add_action(
 );
 
 // /review/ では固定バーを出さない。body に目印を付け、CSSで固定バー分の余白も外す。
+// /night/ はページ全体を夜の地にする目印を付ける。
 add_filter(
 	'body_class',
 	function ( array $classes ) {
 		if ( akari_has_fixed_bar() ) {
 			$classes[] = 'has-fixed-bar';
+		}
+		if ( is_page( 'night' ) ) {
+			$classes[] = 'is-night-page';
 		}
 		return $classes;
 	}

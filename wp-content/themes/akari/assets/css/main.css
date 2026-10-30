@@ -9,20 +9,24 @@
    1. トークン
    -------------------------------------------------------------------------- */
 :root {
-	/* 色：墨色・生成り・琥珀色1色 */
-	--color-bg: #f5f0e6;
-	--color-surface: #ece4d4;
-	--color-ink: #1e1c19;
-	--color-ink-sub: #5b554c;
-	--color-line: #d6ccba;
-	--color-night: #1b1a17;
-	--color-night-2: #2a2723;
-	--color-on-night: #f3ecdf;
-	--color-on-night-sub: #c9c0b0;
-	--color-accent: #d9973a;
-	--color-accent-hover: #c4852b;
-	--color-on-accent: #1e1c19;
-	--color-focus: #1e1c19;
+	/* 色：墨色・生成り・琥珀色1色（2026-10-30 デザイン刷新方針3章の案。関門3bで確定）
+	   琥珀（--color-accent）は生成りの地の文字・細線・アイコンに使わない。生成りの地では --color-accent-deep */
+	--color-bg: #f3ede2;
+	--color-surface: #e9dfcc;
+	--color-ink: #1d1a16;
+	--color-ink-sub: #5a5247;
+	--color-line: #d5c8b2;
+	--color-night: #16130f;
+	--color-night-2: #241f19;
+	--color-night-3: #322a21;
+	--color-on-night: #f4ecdc;
+	--color-on-night-sub: #c8bca8;
+	--color-accent: #e0a24a;
+	--color-accent-hover: #c98a33;
+	--color-accent-deep: #865316;
+	--color-glow: rgba(224, 162, 74, 0.16);
+	--color-on-accent: #1d1a16;
+	--color-focus: #1d1a16;
 
 	/* 書体 */
 	--font-heading: "Akari Heading", "Hiragino Mincho ProN", "Yu Mincho", "YuMincho", "Noto Serif JP", serif;
@@ -51,6 +55,7 @@
 	--space-7: 48px;
 	--space-8: 64px;
 	--space-9: 96px;
+	--space-10: 128px;
 	--gutter: 16px;
 	--container: 1120px;
 	--tap-min: 48px;
@@ -112,7 +117,7 @@ h1, h2, h3, h4 {
 	font-family: var(--font-heading);
 	font-weight: 600;
 	line-height: var(--lh-heading);
-	letter-spacing: 0.04em;
+	letter-spacing: 0.08em;
 }
 p, ul, ol, dl, figure, table, blockquote { margin: 0 0 var(--space-4); }
 
@@ -218,7 +223,7 @@ time { font-variant-numeric: tabular-nums; }
 	letter-spacing: 0.02em;
 }
 .btn--tel { background: var(--color-accent); color: var(--color-on-accent); }
-.btn--tel .btn__label + .btn__num { padding-left: var(--space-2); border-left: 1px solid rgba(30, 28, 25, 0.35); }
+.btn--tel .btn__label + .btn__num { padding-left: var(--space-2); border-left: 1px solid rgba(29, 26, 22, 0.35); }
 .btn--reserve { background: var(--color-ink); color: var(--color-bg); }
 .btn--reserve .icon { width: 1em; height: 1em; }
 .btn--primary { background: var(--color-accent); color: var(--color-on-accent); }
@@ -228,7 +233,7 @@ time { font-variant-numeric: tabular-nums; }
 @media (hover: hover) {
 	.btn--tel:hover,
 	.btn--primary:hover { background: var(--color-accent-hover); }
-	.btn--reserve:hover { background: #3a3631; }
+	.btn--reserve:hover { background: var(--color-night-3); }
 	.btn--outline:hover { background: var(--color-ink); color: var(--color-bg); }
 }
 .btn:focus-visible { outline-offset: 2px; }
@@ -301,7 +306,7 @@ time { font-variant-numeric: tabular-nums; }
 	margin-right: auto;
 	text-decoration: none;
 }
-.site-logo .icon { width: 28px; height: 28px; color: var(--color-accent-hover); }
+.site-logo .icon { width: 28px; height: 28px; color: var(--color-accent-deep); }
 .site-logo__text {
 	font-family: var(--font-heading);
 	font-size: 1.25rem;
@@ -328,7 +333,7 @@ time { font-variant-numeric: tabular-nums; }
 .header-icon .icon { width: 24px; height: 24px; }
 .header-icon__label { font-size: 0.6875rem; line-height: 1.2; }
 .header-icon--tel { color: var(--color-ink); }
-.header-icon--tel .icon { color: var(--color-accent-hover); }
+.header-icon--tel .icon { color: var(--color-accent-deep); }
 
 .global-nav,
 .header-contact { display: none; }
@@ -348,7 +353,7 @@ time { font-variant-numeric: tabular-nums; }
 		min-height: 44px;
 		text-decoration: none;
 	}
-	.header-contact__tel .icon { color: var(--color-accent-hover); width: 18px; height: 18px; }
+	.header-contact__tel .icon { color: var(--color-accent-deep); width: 18px; height: 18px; }
 	.header-contact__num { font-size: 1.125rem; font-weight: 700; font-variant-numeric: tabular-nums; letter-spacing: 0.04em; }
 	.header-contact__note { grid-column: 1 / -1; font-size: 0.6875rem; color: var(--color-ink-sub); line-height: 1.3; }
 }
@@ -365,7 +370,7 @@ time { font-variant-numeric: tabular-nums; }
 		font-size: 0.875rem;
 		white-space: nowrap;
 		text-decoration: none;
-		background-image: linear-gradient(var(--color-accent), var(--color-accent));
+		background-image: linear-gradient(var(--color-accent-deep), var(--color-accent-deep));
 		background-size: 0 2px;
 		background-position: center bottom 6px;
 		background-repeat: no-repeat;
@@ -440,42 +445,64 @@ time { font-variant-numeric: tabular-nums; }
 /* --------------------------------------------------------------------------
    5. 臨時休業の帯（U-12）
    -------------------------------------------------------------------------- */
-.notice-bar { background: var(--color-accent); color: var(--color-on-accent); }
+/* 琥珀の面は電話ボタンだけに残し、帯は墨の地に琥珀の細線で控えめに（D16） */
+.notice-bar {
+	background: var(--color-night-2);
+	color: var(--color-on-night);
+	border-left: 4px solid var(--color-accent);
+	--color-focus: var(--color-on-night);
+}
 .notice-bar__inner {
 	display: flex;
 	flex-wrap: wrap;
 	align-items: center;
-	gap: var(--space-2) var(--space-3);
-	padding-block: var(--space-3);
+	gap: 0 var(--space-3);
+	padding-block: var(--space-1);
+	min-height: 48px;
 }
 .notice-bar__label {
-	padding: 2px var(--space-2);
-	border: 1px solid currentColor;
+	flex: none;
+	padding: 0 var(--space-2);
+	border: 1px solid var(--color-accent);
 	border-radius: 2px;
+	color: var(--color-accent);
 	font-size: var(--fs-xs);
 	font-weight: 700;
 }
-.notice-bar__text { font-weight: 700; }
-.notice-bar__link { color: var(--color-on-accent); font-weight: 700; min-height: 44px; display: inline-flex; align-items: center; }
+.notice-bar__link { color: var(--color-on-night); min-height: 44px; display: inline-flex; align-items: center; }
 
 /* --------------------------------------------------------------------------
    6. セクション共通
    -------------------------------------------------------------------------- */
 .section { padding-block: var(--space-8); }
-@media (min-width: 1024px) { .section { padding-block: var(--space-9); } }
+@media (min-width: 1024px) {
+	.section { padding-block: var(--space-9); }
+	.section--peak { padding-block: var(--space-10); }
+}
 .section--surface { background: var(--color-surface); }
-.section--night {
-	background: var(--color-night);
-	color: var(--color-on-night);
+
+/* 夜の地：色のトークンを差し替えて、中の部品（表・カード・リンク・ボタン）をそのまま夜の地に合わせる */
+.section--night,
+.hero,
+.home .site-header,
+.is-night-page .site-main {
+	--color-bg: var(--color-night);
+	--color-surface: var(--color-night-2);
+	--color-ink: var(--color-on-night);
+	--color-ink-sub: var(--color-on-night-sub);
+	--color-line: var(--color-night-3);
+	--color-accent-deep: var(--color-accent);
 	--color-focus: var(--color-on-night);
+	background: var(--color-bg);
+	color: var(--color-ink);
 }
-.section--night a { color: var(--color-on-night); }
-.section--night .note,
-.section--night .cta-note { color: var(--color-on-night-sub); }
-.section--night .btn--reserve { background: transparent; border-color: var(--color-on-night); color: var(--color-on-night); }
+:is(.section--night, .hero, .home .site-header, .is-night-page .site-main) .btn--reserve { background: transparent; border-color: var(--color-ink); color: var(--color-ink); }
 @media (hover: hover) {
-	.section--night .btn--reserve:hover { background: var(--color-on-night); color: var(--color-night); }
+	:is(.section--night, .hero, .home .site-header, .is-night-page .site-main) .btn--reserve:hover { background: var(--color-ink); color: var(--color-bg); }
 }
+/* 夜の地のセクション同士は細い線1本で区切る */
+.hero + .section--night,
+.section--night + .section--night { border-top: 1px solid var(--color-night-3); }
 
 .section-title {
 	font-size: var(--fs-l);
@@ -487,7 +514,7 @@ time { font-variant-numeric: tabular-nums; }
 	width: 32px;
 	height: 2px;
 	margin-top: var(--space-3);
-	background: var(--color-accent);
+	background: var(--color-accent-deep);
 }
 .section-eyebrow {
 	margin-bottom: var(--space-2);
@@ -527,38 +554,51 @@ time { font-variant-numeric: tabular-nums; }
 /* --------------------------------------------------------------------------
    7. トップ：メインビジュアル
    -------------------------------------------------------------------------- */
+/* 灯りのにじみ（静止した放射グラデーション。動かさない） */
 .hero {
 	position: relative;
 	display: grid;
-	background: var(--color-night);
-	color: var(--color-on-night);
-	--color-focus: var(--color-on-night);
+	overflow: hidden;
+	background:
+		radial-gradient(ellipse 90% 70% at 85% 20%, var(--color-glow), transparent 70%),
+		var(--color-night);
 }
 .hero__media,
 .hero__body { grid-area: 1 / 1; }
-.hero__media { aspect-ratio: 4 / 5; overflow: hidden; }
+.hero__media { position: relative; display: block; aspect-ratio: 4 / 5; overflow: hidden; }
 .hero__media img { width: 100%; height: 100%; object-fit: cover; }
-.hero.has-image .hero__body {
-	align-self: end;
-	padding-top: 40%;
-	padding-bottom: var(--space-6);
-	background: linear-gradient(to bottom, rgba(27, 26, 23, 0) 0%, rgba(27, 26, 23, 0.72) 38%, rgba(27, 26, 23, 0.92) 100%);
+/* 写真あり（SP）：文字は写真の下1/3に重ね、写真の上半分は覆わない */
+.hero__media::after {
+	content: "";
+	position: absolute;
+	inset: auto 0 0;
+	height: 45%;
+	background: linear-gradient(to bottom, rgba(22, 19, 15, 0), var(--color-night));
 }
-.hero:not(.has-image) .hero__body { padding-block: var(--space-8); }
+.hero.has-image .hero__body {
+	grid-area: 2 / 1;
+	position: relative;
+	margin-top: -36vw;
+	padding-bottom: var(--space-6);
+}
+.hero:not(.has-image) .hero__body { padding-block: var(--space-7) var(--space-6); }
 .hero__title {
 	margin-bottom: var(--space-3);
-	font-size: var(--fs-m);
+	font-size: clamp(1.5rem, 1.1rem + 1.2vw, 2rem);
 	letter-spacing: 0.12em;
 }
-.hero__title span { display: block; font-size: var(--fs-xs); font-family: var(--font-body); font-weight: 400; letter-spacing: 0.08em; color: var(--color-on-night-sub); }
+.hero__title span { display: block; margin-top: var(--space-1); font-size: var(--fs-xs); font-family: var(--font-body); font-weight: 400; letter-spacing: 0.08em; color: var(--color-on-night-sub); }
 .hero__catch {
-	margin-bottom: var(--space-3);
+	margin-bottom: var(--space-4);
 	font-family: var(--font-heading);
 	font-size: var(--fs-display);
 	font-weight: 600;
 	line-height: var(--lh-heading);
 	letter-spacing: 0.06em;
 }
+/* 句の途中で折り返さない（読点・句点の後でだけ改行する） */
+.hero__phrase { display: inline-block; }
+.hero__vertical { display: none; }
 .hero__times {
 	display: flex;
 	flex-wrap: wrap;
@@ -582,21 +622,41 @@ time { font-variant-numeric: tabular-nums; }
 }
 .hero__times li:nth-child(2) .hero__times-label { background: var(--color-accent); border-color: var(--color-accent); color: var(--color-on-accent); }
 .hero__times-closed { font-size: var(--fs-xs) !important; font-weight: 400 !important; color: var(--color-on-night-sub); }
-.hero .cta-note { color: var(--color-on-night-sub); }
-.hero .btn--reserve { background: transparent; border-color: var(--color-on-night); color: var(--color-on-night); }
+.hero .cta { margin-bottom: 0; }
 @media (min-width: 768px) {
 	.hero__media { aspect-ratio: 16 / 9; max-height: calc(100vh - var(--header-h)); width: 100%; }
+	.hero__media::after { display: none; }
 	.hero.has-image .hero__body {
+		grid-area: 1 / 1;
 		align-self: stretch;
 		display: flex;
 		flex-direction: column;
 		justify-content: flex-end;
+		margin-top: 0;
 		padding-top: var(--space-8);
 		padding-bottom: var(--space-7);
 		max-width: none;
-		background: linear-gradient(to right, rgba(27, 26, 23, 0.88) 0%, rgba(27, 26, 23, 0.55) 45%, rgba(27, 26, 23, 0) 75%);
+		background:
+			linear-gradient(to top, rgba(22, 19, 15, 0.92) 0%, rgba(22, 19, 15, 0.6) 30%, rgba(22, 19, 15, 0) 55%),
+			linear-gradient(to right, rgba(22, 19, 15, 0.7) 0%, rgba(22, 19, 15, 0) 50%);
 	}
 	.hero .cta__item { min-width: 300px; }
+	/* 写真がない間は、右側に夜の時間を縦書きで大きく添える（写真が入れば写真に置き換わる） */
+	.hero:not(.has-image) .hero__body { position: relative; padding-block: var(--space-9); }
+	.hero:not(.has-image) .hero__vertical {
+		position: absolute;
+		top: var(--space-8);
+		right: calc(var(--gutter) + 4vw);
+		display: block;
+		margin: 0;
+		writing-mode: vertical-rl;
+		font-family: var(--font-heading);
+		font-size: clamp(2rem, 1rem + 2.6vw, 3.25rem);
+		letter-spacing: 0.16em;
+		color: var(--color-accent);
+		opacity: 0.85;
+	}
+	.hero__vertical span { font-size: 0.5em; margin-bottom: 0.6em; color: var(--color-on-night-sub); }
 }
 
 /* 昼の燈り・夜の燈り（昼も夜も見せ、夜を大きく） */
@@ -608,13 +668,13 @@ time { font-variant-numeric: tabular-nums; }
 	overflow: hidden;
 	border-radius: var(--radius-m);
 }
-.daynight__card--lunch { background: var(--color-surface); }
+.daynight__card--lunch { border: 1px solid var(--color-line); }
 .daynight__card--night {
-	background: var(--color-night);
-	color: var(--color-on-night);
-	--color-focus: var(--color-on-night);
+	border-top: 2px solid var(--color-accent);
+	background:
+		radial-gradient(ellipse 80% 60% at 100% 0%, var(--color-glow), transparent 70%),
+		var(--color-night-2);
 }
-.daynight__card--night a { color: var(--color-on-night); }
 .daynight__body { display: flex; flex-direction: column; flex: 1; padding: var(--space-5); }
 .daynight__body p { max-width: var(--measure); }
 .daynight__label {
@@ -637,12 +697,48 @@ time { font-variant-numeric: tabular-nums; }
 .style-card__img { margin: calc(var(--space-5) * -1) calc(var(--space-5) * -1) var(--space-4); }
 .style-card { overflow: hidden; }
 
-/* 夜のおすすめ3品 */
-.pick-list { display: grid; gap: var(--space-6); padding: 0; list-style: none; }
-@media (min-width: 768px) { .pick-list { grid-template-columns: repeat(3, 1fr); gap: var(--space-5); } }
+/* 夜のおすすめ3品：SPは横スワイプ（自動送りなし）、PCは1品を大きく。写真がない品は品書き札風 */
+.pick-list {
+	display: grid;
+	grid-auto-flow: column;
+	grid-auto-columns: 78vw;
+	gap: var(--space-4);
+	margin-inline: calc(var(--gutter) * -1);
+	padding: 0 var(--gutter) var(--space-3);
+	list-style: none;
+	overflow-x: auto;
+	scroll-snap-type: x mandatory;
+	scroll-padding-inline: var(--gutter);
+	overscroll-behavior-x: contain;
+}
+.pick { scroll-snap-align: start; }
 .pick__img { margin-bottom: var(--space-3); border-radius: var(--radius-m); }
-.pick__title { font-size: var(--fs-m); margin-bottom: var(--space-2); }
+.pick__title { font-size: var(--fs-l); margin-bottom: var(--space-2); }
 .pick__text { margin: 0; }
+.pick.is-text-only {
+	height: 100%;
+	padding: var(--space-5);
+	border: 1px solid var(--color-line);
+	border-left: 2px solid var(--color-accent-deep);
+	border-radius: var(--radius-m);
+	background: var(--color-surface);
+}
+@media (min-width: 768px) {
+	.pick-list {
+		grid-auto-flow: row;
+		grid-template-columns: 3fr 2fr;
+		gap: var(--space-5);
+		margin-inline: 0;
+		padding: 0;
+		overflow: visible;
+	}
+	.pick:first-child { grid-row: span 2; display: flex; flex-direction: column; }
+	.pick:first-child .pick__img { flex: 1; min-height: 320px; aspect-ratio: auto; }
+	.pick:first-child .pick__img img { position: absolute; inset: 0; }
+	.pick:first-child .pick__title { font-size: var(--fs-xl); }
+	.pick:not(:first-child):not(.is-text-only) { display: grid; grid-template-columns: 2fr 3fr; gap: 0 var(--space-4); align-content: start; }
+	.pick:not(:first-child) .pick__img { grid-row: span 2; margin-bottom: 0; }
+}
 
 .lunch-hours { font-weight: 700; }
 
@@ -674,7 +770,7 @@ time { font-variant-numeric: tabular-nums; }
 .reserve-guide {
 	padding: var(--space-5);
 	border: 1px solid var(--color-line);
-	border-top: 3px solid var(--color-accent);
+	border-top: 3px solid var(--color-accent-deep);
 	border-radius: var(--radius-m);
 	background: var(--color-bg);
 }
@@ -695,7 +791,19 @@ time { font-variant-numeric: tabular-nums; }
    9. コースカード（U-08）
    -------------------------------------------------------------------------- */
 .course-list { display: grid; gap: var(--space-6); }
-@media (min-width: 768px) { .course-list { grid-template-columns: repeat(2, 1fr); } }
+/* 件数で組みを変える（コース・お客様の声）：1件は中央寄せの幅広、2件は2列、3件以上は3列。空き枠を出さない */
+@media (min-width: 768px) {
+	.course-list,
+	.voice-list { display: flex; flex-wrap: wrap; justify-content: center; }
+	.course-list > *,
+	.voice-list > * { flex: 1 1 calc(50% - var(--space-6)); max-width: 720px; }
+}
+@media (min-width: 1024px) {
+	.course-list > :first-child:nth-last-child(n+3),
+	.course-list > :first-child:nth-last-child(n+3) ~ *,
+	.voice-list > :first-child:nth-last-child(n+3),
+	.voice-list > :first-child:nth-last-child(n+3) ~ * { flex-basis: calc(33.333% - var(--space-6)); }
+}
 .course-list--full .course-list__item { display: flex; flex-direction: column; }
 .course-list--full .cta { margin-bottom: 0; grid-template-columns: 1fr; }
 .course-card {
@@ -710,7 +818,7 @@ time { font-variant-numeric: tabular-nums; }
 .course-card__name { font-size: var(--fs-l); margin-bottom: var(--space-2); }
 .course-card__price {
 	margin-bottom: var(--space-4);
-	font-size: var(--fs-m);
+	font-size: var(--fs-l);
 	font-weight: 700;
 	font-variant-numeric: tabular-nums;
 	color: var(--color-accent);
@@ -977,7 +1085,7 @@ time { font-variant-numeric: tabular-nums; }
 }
 .faq[open] summary::after { transform: rotate(-135deg); }
 .faq__q { margin: 0; font-size: var(--fs-base); }
-.faq__q::before { content: "Q. "; color: var(--color-accent-hover); }
+.faq__q::before { content: "Q. "; color: var(--color-accent-deep); }
 .faq__a { padding-bottom: var(--space-4); }
 .faq__a > :last-child { margin-bottom: 0; }
 
@@ -1067,7 +1175,6 @@ time { font-variant-numeric: tabular-nums; }
 
 /* お客様の声（U-14） */
 .voice-list { display: grid; gap: var(--space-4); padding: 0; list-style: none; }
-@media (min-width: 768px) { .voice-list { grid-template-columns: repeat(3, 1fr); } }
 .voice {
 	position: relative;
 	height: 100%;
@@ -1083,7 +1190,7 @@ time { font-variant-numeric: tabular-nums; }
 	font-family: var(--font-heading);
 	font-size: 3rem;
 	line-height: 1;
-	color: var(--color-accent);
+	color: var(--color-accent-deep);
 }
 .voice__quote { margin: 0 0 var(--space-3); }
 .voice__quote p:last-child { margin-bottom: 0; }
@@ -1153,11 +1260,21 @@ time { font-variant-numeric: tabular-nums; }
 }
 .fixed-cta .btn { flex: 1; min-height: 48px; padding-inline: var(--space-2); }
 .fixed-cta .btn--reserve { background: var(--color-night-2); border-color: var(--color-on-night-sub); color: var(--color-on-night); }
+.fixed-cta { transition: transform var(--motion); }
 .fixed-cta.is-hidden { transform: translateY(100%); }
 @media (min-width: 768px) {
 	.fixed-cta { display: none; }
 	body.has-fixed-bar { padding-bottom: 0; }
 }
+
+/* スクロールで一度だけふわっと出す。.reveal はJSが画面外の要素にだけ付ける（JSなし・動きを減らす設定では付かない） */
+.reveal { opacity: 0; transform: translateY(8px); transition: opacity 200ms ease-out, transform 200ms ease-out; }
+.reveal.is-shown { opacity: 1; transform: none; }
+
+/* /night/：ページ全体を夜の地に。パンくずと見出しも夜の地の色に合わせる */
+.is-night-page .breadcrumb,
+.is-night-page .breadcrumb a { color: var(--color-ink-sub); }
+.is-night-page .style-card { background: var(--color-surface); }
 
 /* --------------------------------------------------------------------------
    14. 印刷

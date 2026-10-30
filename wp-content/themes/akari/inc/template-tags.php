@@ -191,6 +191,19 @@ function akari_img( int $id, string $sizes, array $args = array() ): string {
 	return wp_get_attachment_image( $id, $args['size'], false, $attr );
 }
 
+/**
+ * 文を読点・句点の直後で区切り、句ごとに span で包む（キャッチが句の途中で折り返さないように）。文字は変えない。
+ * 返り値はエスケープ済みのHTML。
+ */
+function akari_phrases( string $text, string $class = 'hero__phrase' ): string {
+	$parts = preg_split( '/(?<=[、。，．！？])/u', $text, -1, PREG_SPLIT_NO_EMPTY );
+	$html  = '';
+	foreach ( (array) $parts as $part ) {
+		$html .= '<span class="' . esc_attr( $class ) . '">' . esc_html( $part ) . '</span>';
+	}
+	return $html;
+}
+
 /** トップのメインビジュアルの画像ID。片方だけなら両方に同じものを使う。 */
 function akari_main_visual_ids(): array {
 	$front = (int) get_option( 'page_on_front' );

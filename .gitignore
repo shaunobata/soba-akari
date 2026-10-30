@@ -8,3 +8,6 @@ wp-content/cache/
 .DS_Store
 Thumbs.db
 desktop.ini
+
+# 写真素材（WordPressのメディアに入れて使う。リポジトリには入れない）
+素材/
