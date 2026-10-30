@@ -126,7 +126,7 @@ $akari_times = array_filter(
 	</section>
 <?php endif; ?>
 
-<?php /* 1.5 昼の燈り・夜の燈り（昼も夜も営業していることを見せ、夜を大きく扱う） */ ?>
+<?php /* 1.5 昼の燈り・夜の燈り（昼も夜も営業していることを見せる。昼と夜は同じ大きさ） */ ?>
 <?php
 $akari_lunch_img = (int) akari_field( 'akari_lunch_img', $akari_front );
 $akari_night_img = (int) akari_field( 'akari_night_img', $akari_front );
@@ -138,7 +138,7 @@ $akari_night_img = (int) akari_field( 'akari_night_img', $akari_front );
 			<article class="daynight__card daynight__card--lunch">
 				<?php if ( $akari_lunch_img ) : ?>
 					<div class="daynight__img ratio-4-3">
-						<?php echo akari_img( $akari_lunch_img, '(min-width: 768px) 40vw, 100vw' ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
+						<?php echo akari_img( $akari_lunch_img, '(min-width: 768px) 50vw, 100vw' ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
 					</div>
 				<?php endif; ?>
 				<div class="daynight__body">
@@ -156,7 +156,7 @@ $akari_night_img = (int) akari_field( 'akari_night_img', $akari_front );
 			<article class="daynight__card daynight__card--night">
 				<?php if ( $akari_night_img ) : ?>
 					<div class="daynight__img ratio-4-3">
-						<?php echo akari_img( $akari_night_img, '(min-width: 768px) 60vw, 100vw' ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
+						<?php echo akari_img( $akari_night_img, '(min-width: 768px) 50vw, 100vw' ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
 					</div>
 				<?php endif; ?>
 				<div class="daynight__body">

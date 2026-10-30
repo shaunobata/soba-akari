@@ -678,9 +678,9 @@ time { font-variant-numeric: tabular-nums; }
 	.hero__vertical span { font-size: 0.5em; margin-bottom: 0.6em; color: var(--color-on-night-sub); }
 }
 
-/* 昼の燈り・夜の燈り（昼も夜も見せ、夜を大きく） */
+/* 昼の燈り・夜の燈り（昼も夜も見せる。2026-10-31 店主依頼で昼と夜を同じ大きさに） */
 .daynight__grid { display: grid; gap: var(--space-4); }
-@media (min-width: 768px) { .daynight__grid { grid-template-columns: 2fr 3fr; align-items: stretch; } }
+@media (min-width: 768px) { .daynight__grid { grid-template-columns: 1fr 1fr; align-items: stretch; } }
 .daynight__card {
 	display: flex;
 	flex-direction: column;
@@ -708,7 +708,6 @@ time { font-variant-numeric: tabular-nums; }
 }
 .daynight__card--night .daynight__label { background: var(--color-accent); border-color: var(--color-accent); color: var(--color-on-accent); }
 .daynight__title { font-size: var(--fs-l); margin-bottom: var(--space-2); }
-.daynight__card--night .daynight__title { font-size: var(--fs-xl); }
 .daynight__hours { font-weight: 700; font-size: var(--fs-m); }
 .daynight__card--night .daynight__hours { color: var(--color-accent); }
 .daynight__more { margin-top: auto; margin-bottom: 0; padding-top: var(--space-3); }
