@@ -1,7 +1,7 @@
 <?php
 /**
  * 投稿タイプ（詳細設計書3.1）。
- * 月替わり・お品書き・コースは単独のページを持たず、各ページのテンプレートから呼び出すだけ。
+ * 月替わり・季節限定・お品書き・コースは単独のページを持たず、各ページのテンプレートから呼び出すだけ。
  * 標準の「投稿」は「お知らせ」に名前を替え、入力欄をタイトル・本文・写真・カテゴリに絞る。
  */
 
@@ -53,6 +53,18 @@ add_action(
 			)
 		);
 
+		// 季節限定（2026-10-31 店主依頼）。月替わりと違い、掲載期間（始まりの月〜終わりの月）で出す
+		register_post_type(
+			'akari_seasonal',
+			$common + array(
+				'labels'          => akari_post_type_labels( '季節限定', '品' ),
+				'menu_icon'       => 'dashicons-star-filled',
+				'menu_position'   => 5,
+				'supports'        => array( 'title', 'thumbnail', 'page-attributes' ),
+				'capability_type' => array( 'akari_seasonal', 'akari_seasonals' ),
+			)
+		);
+
 		register_post_type(
 			'akari_menu',
 			$common + array(
@@ -82,6 +94,46 @@ add_action(
 		unregister_taxonomy_for_object_type( 'post_tag', 'post' );
 	}
 );
+
+/**
+ * いま掲載期間にある季節限定（日本時間の当月で判定）。始まりの月 ≦ 当月 ≦ 終わりの月（終わりが空なら無期限）。
+ * 並び順は「順序」の小さい順、同じなら新しい順。
+ */
+function akari_get_seasonal( int $limit = -1 ): array {
+	$now = wp_date( 'Y-m' );
+	return get_posts(
+		array(
+			'post_type'      => 'akari_seasonal',
+			'post_status'    => 'publish',
+			'posts_per_page' => $limit,
+			'meta_query'     => array( // phpcs:ignore WordPress.DB.SlowDBQuery
+				'relation' => 'AND',
+				array(
+					'key'     => 'akari_season_from',
+					'value'   => $now,
+					'compare' => '<=',
+				),
+				array(
+					'relation' => 'OR',
+					array(
+						'key'     => 'akari_season_to',
+						'compare' => 'NOT EXISTS',
+					),
+					array(
+						'key'     => 'akari_season_to',
+						'value'   => $now,
+						'compare' => '>=',
+					),
+				),
+			),
+			'orderby'        => array(
+				'menu_order' => 'ASC',
+				'date'       => 'DESC',
+			),
+			'no_found_rows'  => true,
+		)
+	);
+}
 
 function akari_post_type_labels( string $name, string $unit ): array {
 	return array(

@@ -11,8 +11,9 @@ defined( 'ABSPATH' ) || exit;
 /** タイトル（品名・コース名・お知らせのタイトル）の字数の上限。 */
 function akari_title_rules( string $post_type ): array {
 	$rules = array(
-		'akari_monthly' => array( 'label' => '品名', 'max' => 20 ),
-		'akari_menu'    => array( 'label' => '品名', 'max' => 30 ),
+		'akari_monthly'  => array( 'label' => '品名', 'max' => 20 ),
+		'akari_seasonal' => array( 'label' => '品名', 'max' => 20 ),
+		'akari_menu'     => array( 'label' => '品名', 'max' => 30 ),
 		'akari_course'  => array( 'label' => 'コース名', 'max' => 20 ),
 		'post'          => array( 'label' => 'タイトル', 'max' => 40 ),
 	);
@@ -37,6 +38,15 @@ function akari_meta_fields( string $post_type, int $post_id = 0 ): array {
 				'akari_desc'  => array( 'label' => '説明', 'type' => 'textarea', 'max' => 60, 'max_lines' => 2, 'rows' => 3, 'placeholder' => '例：今朝届いた牡蠣を、さっと揚げました。' ),
 				'akari_serve' => array( 'label' => '提供', 'type' => 'radio', 'choices' => akari_choices( 'serve' ), 'required' => true, 'default' => 'both' ),
 				'akari_month' => array( 'label' => '掲載月', 'type' => 'month', 'required' => true, 'default' => akari_default_month(), 'help' => 'この月のあいだだけ表示されます。月が変わると自動で消えます。' ),
+			);
+
+		case 'akari_seasonal':
+			return array(
+				'akari_price'       => array( 'label' => '税込価格', 'type' => 'price', 'required' => true ),
+				'akari_desc'        => array( 'label' => '説明', 'type' => 'textarea', 'max' => 60, 'max_lines' => 2, 'rows' => 3, 'placeholder' => '例：寒い時期だけの、温かい蕎麦です。' ),
+				'akari_serve'       => array( 'label' => '提供', 'type' => 'radio', 'choices' => akari_choices( 'serve' ), 'required' => true, 'default' => 'both' ),
+				'akari_season_from' => array( 'label' => '掲載の始まりの月', 'type' => 'month', 'required' => true, 'default' => wp_date( 'Y-m' ) ),
+				'akari_season_to'   => array( 'label' => '掲載の終わりの月', 'type' => 'month', 'help' => 'この月の終わりまで表示します。空なら、下書きに戻すまで表示し続けます。' ),
 			);
 
 		case 'akari_menu':
@@ -192,7 +202,8 @@ add_action(
 			return;
 		}
 		$titles = array(
-			'akari_monthly' => '月替わりの内容',
+			'akari_monthly'  => '月替わりの内容',
+			'akari_seasonal' => '季節限定の内容',
 			'akari_menu'    => 'お品書きの内容',
 			'akari_course'  => 'コースの内容',
 		);
@@ -430,7 +441,12 @@ add_filter(
 
 		$fields = akari_meta_fields( $post_type, (int) ( $postarr['ID'] ?? 0 ) );
 		if ( $fields && ! empty( $_POST['akari_fields_nonce'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification
-			$errors = array_merge( $errors, akari_validate_fields( $fields, akari_collect_fields( $fields ) ) );
+			$values = akari_collect_fields( $fields );
+			$errors = array_merge( $errors, akari_validate_fields( $fields, $values ) );
+			// 季節限定：終わりの月は始まりの月と同じかそれより後
+			if ( 'akari_seasonal' === $post_type && '' !== $values['akari_season_to'] && '' !== $values['akari_season_from'] && $values['akari_season_to'] < $values['akari_season_from'] ) {
+				$errors[] = '掲載の終わりの月は、始まりの月と同じか、それより後の月にしてください。';
+			}
 		}
 
 		if ( $errors ) {
@@ -548,6 +564,56 @@ add_filter(
 		) + $columns;
 	}
 );
+/** 季節限定の状態：掲載中／〇月から／終了 */
+function akari_seasonal_status( string $from, string $to ): string {
+	$now = wp_date( 'Y-m' );
+	if ( '' === $from ) {
+		return '―';
+	}
+	if ( $from > $now ) {
+		return (int) substr( $from, 5 ) . '月から';
+	}
+	return ( '' !== $to && $to < $now ) ? '終了' : '掲載中';
+}
+
+/** 季節限定の掲載期間の表示。「2026年11月〜2027年2月」「2026年11月〜」 */
+function akari_season_period( string $from, string $to ): string {
+	$fmt = fn( string $m ) => '' === $m ? '' : (int) substr( $m, 0, 4 ) . '年' . (int) substr( $m, 5 ) . '月';
+	return '' === $from ? '―' : $fmt( $from ) . '〜' . $fmt( $to );
+}
+
+add_filter(
+	'manage_akari_seasonal_posts_columns',
+	function ( array $columns ) {
+		$columns['title'] = '品名';
+		return array_slice( $columns, 0, 2 ) + array(
+			'akari_period' => '掲載期間',
+			'akari_status' => '状態',
+			'akari_price'  => '税込価格',
+		) + $columns;
+	}
+);
+add_action(
+	'manage_akari_seasonal_posts_custom_column',
+	function ( string $column, int $post_id ) {
+		$from = (string) get_post_meta( $post_id, 'akari_season_from', true );
+		$to   = (string) get_post_meta( $post_id, 'akari_season_to', true );
+		switch ( $column ) {
+			case 'akari_period':
+				echo esc_html( akari_season_period( $from, $to ) );
+				break;
+			case 'akari_status':
+				echo esc_html( akari_seasonal_status( $from, $to ) );
+				break;
+			case 'akari_price':
+				echo esc_html( akari_price_text( get_post_meta( $post_id, 'akari_price', true ) ) );
+				break;
+		}
+	},
+	10,
+	2
+);
+
 add_filter(
 	'manage_akari_menu_posts_columns',
 	fn( array $columns ) => array_slice( $columns, 0, 2 ) + array(

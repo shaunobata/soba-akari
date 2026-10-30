@@ -48,6 +48,9 @@ function akari_home_page(): void {
 			<a class="akari-home__button" href="<?php echo esc_url( admin_url( 'post-new.php?post_type=akari_monthly' ) ); ?>">
 				<span class="dashicons dashicons-carrot" aria-hidden="true"></span>今月の月替わりを追加する
 			</a>
+			<a class="akari-home__button" href="<?php echo esc_url( admin_url( 'post-new.php?post_type=akari_seasonal' ) ); ?>">
+				<span class="dashicons dashicons-star-filled" aria-hidden="true"></span>季節限定を追加する
+			</a>
 			<a class="akari-home__button" href="<?php echo esc_url( admin_url( 'post-new.php' ) ); ?>">
 				<span class="dashicons dashicons-edit" aria-hidden="true"></span>お知らせを書く
 			</a>
@@ -58,11 +61,12 @@ function akari_home_page(): void {
 		</div>
 		<p class="akari-home__status">
 			<?php echo esc_html( sprintf( '%d月の月替わり：%d件掲載中', (int) wp_date( 'n' ), $month_count ) ); ?>
+			<br><?php echo esc_html( sprintf( '季節限定：%d件掲載中', count( akari_get_seasonal() ) ) ); ?>
 			<?php if ( $notice_on ) : ?>
 				<br><?php echo esc_html( sprintf( '臨時休業の帯：%sまで表示', wp_date( 'n月j日', strtotime( $notice['end_date'] ) ) ) ); ?>
 			<?php endif; ?>
 		</p>
-		<p><a href="<?php echo esc_url( admin_url( 'edit.php?post_type=akari_monthly' ) ); ?>">月替わりの一覧</a>　<a href="<?php echo esc_url( admin_url( 'edit.php' ) ); ?>">お知らせの一覧</a>　<a href="<?php echo esc_url( home_url( '/' ) ); ?>">サイトを見る</a></p>
+		<p><a href="<?php echo esc_url( admin_url( 'edit.php?post_type=akari_monthly' ) ); ?>">月替わりの一覧</a>　<a href="<?php echo esc_url( admin_url( 'edit.php?post_type=akari_seasonal' ) ); ?>">季節限定の一覧</a>　<a href="<?php echo esc_url( admin_url( 'edit.php' ) ); ?>">お知らせの一覧</a>　<a href="<?php echo esc_url( home_url( '/' ) ); ?>">サイトを見る</a></p>
 	</div>
 	<?php
 }
@@ -141,7 +145,7 @@ add_action(
 		if ( ! akari_is_owner() ) {
 			return;
 		}
-		foreach ( array( 'post', 'akari_monthly' ) as $post_type ) {
+		foreach ( array( 'post', 'akari_monthly', 'akari_seasonal' ) as $post_type ) {
 			foreach ( array( 'postexcerpt', 'slugdiv', 'authordiv', 'commentsdiv', 'commentstatusdiv', 'trackbacksdiv', 'postcustom', 'tagsdiv-post_tag', 'formatdiv', 'revisionsdiv' ) as $box ) {
 				remove_meta_box( $box, $post_type, 'normal' );
 				remove_meta_box( $box, $post_type, 'side' );
@@ -194,7 +198,8 @@ add_filter(
 	'enter_title_here',
 	function ( string $text, WP_Post $post ) {
 		$map = array(
-			'akari_monthly' => '品名（例：牡蠣の天ぷら）',
+			'akari_monthly'  => '品名（例：牡蠣の天ぷら）',
+			'akari_seasonal' => '品名（例：鴨せいろ）',
 			'akari_menu'    => '品名',
 			'akari_course'  => 'コース名',
 			'post'          => 'タイトル（40字以内）',

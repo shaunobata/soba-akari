@@ -110,7 +110,7 @@ function akari_strip_jpeg_metadata( string $file ): void {
 add_action(
 	'save_post',
 	function ( int $post_id, WP_Post $post ) {
-		if ( wp_is_post_revision( $post_id ) || ! in_array( $post->post_type, array( 'akari_monthly', 'post', 'akari_menu', 'akari_course' ), true ) ) {
+		if ( wp_is_post_revision( $post_id ) || ! in_array( $post->post_type, array( 'akari_monthly', 'akari_seasonal', 'post', 'akari_menu', 'akari_course' ), true ) ) {
 			return;
 		}
 		$thumb_id = (int) get_post_thumbnail_id( $post_id );

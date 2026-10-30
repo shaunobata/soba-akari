@@ -71,6 +71,9 @@ while ( have_posts() ) :
 		<section class="menu-section" aria-labelledby="monthly">
 			<h2 class="section-title" id="monthly" tabindex="-1">今月の月替わり</h2>
 			<?php get_template_part( 'template-parts/monthly-list', null, array( 'mode' => 'menu' ) ); ?>
+			<?php if ( akari_page_url( 'seasonal' ) ) : ?>
+				<p class="section-more"><?php echo akari_more_link( akari_page_url( 'seasonal' ), '季節限定の品も、季節のおすすめで見る' ); // phpcs:ignore WordPress.Security.EscapeOutput ?></p>
+			<?php endif; ?>
 		</section>
 
 		<?php if ( akari_page_url( 'night' ) ) : ?>

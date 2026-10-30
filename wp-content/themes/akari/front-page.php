@@ -104,9 +104,10 @@ $akari_times = array_filter(
 	</div>
 </section>
 
-<?php /* 1.2 今月の月替わり（MVの次。0件なら出さない） */ ?>
+<?php /* 1.2 今月の月替わり（MVの次。0件なら出さない。地は「昼も、夜も」と同じ夜の地。詳しくは季節のおすすめへ） */ ?>
+<?php $akari_seasonal_url = akari_page_url( 'seasonal' ); ?>
 <?php if ( $akari_monthly ) : ?>
-	<section class="section section--surface" aria-labelledby="top-monthly">
+	<section class="section section--night" aria-labelledby="top-monthly">
 		<div class="container">
 			<h2 class="section-title" id="top-monthly">今月の月替わり</h2>
 			<?php
@@ -119,7 +120,9 @@ $akari_times = array_filter(
 				)
 			);
 			?>
-			<?php if ( $akari_menu ) : ?>
+			<?php if ( $akari_seasonal_url ) : ?>
+				<p class="section-more"><?php echo akari_more_link( $akari_seasonal_url, '季節のおすすめを見る' ); // phpcs:ignore WordPress.Security.EscapeOutput ?></p>
+			<?php elseif ( $akari_menu ) : ?>
 				<p class="section-more"><?php echo akari_more_link( $akari_menu . '#monthly', 'お品書きを見る' ); // phpcs:ignore WordPress.Security.EscapeOutput ?></p>
 			<?php endif; ?>
 		</div>

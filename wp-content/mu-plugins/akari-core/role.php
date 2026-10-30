@@ -6,7 +6,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-const AKARI_ROLE_VERSION = '1';
+const AKARI_ROLE_VERSION = '2'; // 2：季節限定の権限を追加
 
 /** 投稿タイプの capability_type（複数形）から、編集に要る権限の一覧を作る。 */
 function akari_post_type_caps( string $plural ): array {
@@ -50,6 +50,12 @@ add_action(
 				'delete_akari_monthlies'           => true,
 				'delete_published_akari_monthlies' => true,
 				'edit_others_akari_monthlies'      => true,
+				'edit_akari_seasonals'             => true,
+				'edit_published_akari_seasonals'   => true,
+				'publish_akari_seasonals'          => true,
+				'delete_akari_seasonals'           => true,
+				'delete_published_akari_seasonals' => true,
+				'edit_others_akari_seasonals'      => true,
 				'edit_akari_notice'                => true,
 			)
 		);
@@ -58,6 +64,7 @@ add_action(
 		if ( $admin ) {
 			$caps = array_merge(
 				akari_post_type_caps( 'akari_monthlies' ),
+				akari_post_type_caps( 'akari_seasonals' ),
 				akari_post_type_caps( 'akari_menu_items' ),
 				akari_post_type_caps( 'akari_courses' ),
 				array( 'edit_akari_notice', 'edit_akari_store' )

@@ -123,6 +123,16 @@ function akari_setup_pages(): array {
 				'akari_lunch_text' => '常陸秋そばを石臼で挽いた手打ちの蕎麦を、お昼に気軽にどうぞ。',
 			),
 		),
+		// 季節のおすすめ（2026-10-31 店主依頼）。今月の月替わりと、掲載期間中の季節限定を出す
+		'seasonal' => array(
+			'title'   => '季節のおすすめ',
+			'order'   => 0,
+			'content' => "<!-- wp:paragraph -->\n<p>今月の月替わりと、季節限定の品をご紹介します。価格はすべて税込です。</p>\n<!-- /wp:paragraph -->",
+			'meta'    => array(
+				'akari_seo_title' => '季節のおすすめ（月替わり・季節限定）｜手打そば 燈り 三鷹',
+				'akari_seo_desc'  => '手打そば 燈り（三鷹駅北口）の季節のおすすめです。今月の月替わりと、季節限定の天ぷら・蕎麦・酒肴を税込価格でご紹介します。',
+			),
+		),
 		'menu'    => array(
 			'title'   => 'お品書き',
 			'order'   => 1,
