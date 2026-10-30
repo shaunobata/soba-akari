@@ -2,6 +2,8 @@
 /**
  * トップ（P-01、基本設計書3-2）。
  * セクション0（臨時休業の帯）は header.php。1〜10をこの順で組む。
+ * 昼も夜も営業していることを最初に見せるため、1の直後に「昼の燈り・夜の燈り」（1.5）を置き、
+ * 旧セクション8（昼の燈り）はそこへまとめた（夜のカードを大きく扱う）。
  * 本文中の予約ボタンはセクション1・2・9の3か所だけ。条件を満たさない3・5・6・7・10は出さない。
  */
 
@@ -27,15 +29,12 @@ $akari_news    = get_posts(
 		'no_found_rows'  => true,
 	)
 );
-$akari_hours_line = implode(
-	'／',
-	array_filter(
-		array(
-			akari_hours( 'lunch' ) ? '昼 ' . akari_hours( 'lunch' ) : '',
-			akari_hours( 'dinner' ) ? '夜 ' . akari_hours( 'dinner' ) : '',
-		)
+$akari_times = array_filter(
+	array(
+		'昼' => akari_hours( 'lunch' ),
+		'夜' => akari_hours( 'dinner' ),
 	)
-) . ( akari_closed_label() ? '（' . akari_closed_label() . '定休）' : '' );
+);
 ?>
 
 <?php /* 1 メインビジュアル */ ?>
@@ -64,10 +63,66 @@ $akari_hours_line = implode(
 		<?php if ( $akari_catch ) : ?>
 			<p class="hero__catch"><?php echo esc_html( $akari_catch ); ?></p>
 		<?php endif; ?>
-		<?php if ( $akari_hours_line ) : ?>
-			<p class="hero__hours"><?php echo esc_html( $akari_hours_line ); ?></p>
+		<?php if ( $akari_times ) : ?>
+			<ul class="hero__times">
+				<?php foreach ( $akari_times as $akari_part => $akari_time ) : ?>
+					<li><span class="hero__times-label"><?php echo esc_html( $akari_part ); ?></span><span class="num"><?php echo esc_html( $akari_time ); ?></span></li>
+				<?php endforeach; ?>
+				<?php if ( akari_closed_label() ) : ?>
+					<li class="hero__times-closed"><?php echo esc_html( akari_closed_label() . '定休' ); ?></li>
+				<?php endif; ?>
+			</ul>
 		<?php endif; ?>
 		<?php get_template_part( 'template-parts/cta-buttons' ); ?>
+	</div>
+</section>
+
+<?php /* 1.5 昼の燈り・夜の燈り（昼も夜も営業していることを見せ、夜を大きく扱う） */ ?>
+<?php
+$akari_lunch_img = (int) akari_field( 'akari_lunch_img', $akari_front );
+$akari_night_img = (int) akari_field( 'akari_night_img', $akari_front );
+?>
+<section class="section daynight" aria-labelledby="top-daynight">
+	<div class="container">
+		<h2 class="section-title" id="top-daynight">昼も、夜も</h2>
+		<div class="daynight__grid">
+			<article class="daynight__card daynight__card--lunch">
+				<?php if ( $akari_lunch_img ) : ?>
+					<div class="daynight__img ratio-4-3">
+						<?php echo akari_img( $akari_lunch_img, '(min-width: 768px) 40vw, 100vw' ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
+					</div>
+				<?php endif; ?>
+				<div class="daynight__body">
+					<p class="daynight__label">昼の燈り</p>
+					<h3 class="daynight__title">手打ちの蕎麦を、気軽に</h3>
+					<?php if ( akari_hours( 'lunch' ) ) : ?>
+						<p class="daynight__hours num"><?php echo esc_html( akari_hours( 'lunch' ) ); ?></p>
+					<?php endif; ?>
+					<?php echo akari_text( (string) akari_field( 'akari_lunch_text', $akari_front ) ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
+					<?php if ( $akari_menu ) : ?>
+						<p class="daynight__more"><?php echo akari_more_link( $akari_menu . '#soba', '昼の蕎麦を見る' ); // phpcs:ignore WordPress.Security.EscapeOutput ?></p>
+					<?php endif; ?>
+				</div>
+			</article>
+			<article class="daynight__card daynight__card--night">
+				<?php if ( $akari_night_img ) : ?>
+					<div class="daynight__img ratio-4-3">
+						<?php echo akari_img( $akari_night_img, '(min-width: 768px) 60vw, 100vw' ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
+					</div>
+				<?php endif; ?>
+				<div class="daynight__body">
+					<p class="daynight__label">夜の燈り</p>
+					<h3 class="daynight__title">天ぷらと蕎麦前で一献、締めに蕎麦</h3>
+					<?php if ( akari_hours( 'dinner' ) ) : ?>
+						<p class="daynight__hours num"><?php echo esc_html( akari_hours( 'dinner' ) ); ?><?php echo akari_store( 'lo_food' ) ? '（料理L.O. ' . esc_html( akari_store( 'lo_food' ) ) . '）' : ''; ?></p>
+					<?php endif; ?>
+					<?php echo akari_text( (string) akari_field( 'akari_night_text', $akari_front ) ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
+					<?php if ( $akari_night ) : ?>
+						<p class="daynight__more"><?php echo akari_more_link( $akari_night, '夜の楽しみ方とコースを見る', 'more-link--on-night' ); // phpcs:ignore WordPress.Security.EscapeOutput ?></p>
+					<?php endif; ?>
+				</div>
+			</article>
+		</div>
 	</div>
 </section>
 
@@ -220,28 +275,6 @@ $akari_about_img  = (int) akari_field( 'akari_about_img', $akari_front );
 		</div>
 	</section>
 <?php endif; ?>
-
-<?php /* 8 昼の燈り */ ?>
-<section class="section" aria-labelledby="top-lunch">
-	<div class="container split">
-		<?php $akari_lunch_img = (int) akari_field( 'akari_lunch_img', $akari_front ); ?>
-		<?php if ( $akari_lunch_img ) : ?>
-			<div class="split__media ratio-4-3">
-				<?php echo akari_img( $akari_lunch_img, '(min-width: 768px) 50vw, 100vw' ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
-			</div>
-		<?php endif; ?>
-		<div class="split__body">
-			<h2 class="section-title" id="top-lunch">昼の燈り</h2>
-			<?php if ( akari_hours( 'lunch' ) ) : ?>
-				<p class="lunch-hours">昼の営業 <span class="num"><?php echo esc_html( akari_hours( 'lunch' ) ); ?></span></p>
-			<?php endif; ?>
-			<?php echo akari_text( (string) akari_field( 'akari_lunch_text', $akari_front ) ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
-			<?php if ( $akari_menu ) : ?>
-				<p class="section-more"><?php echo akari_more_link( $akari_menu . '#soba', 'お品書きを見る' ); // phpcs:ignore WordPress.Security.EscapeOutput ?></p>
-			<?php endif; ?>
-		</div>
-	</div>
-</section>
 
 <?php /* 9 店舗情報とご予約の方法 */ ?>
 <section class="section section--surface" aria-labelledby="top-store">

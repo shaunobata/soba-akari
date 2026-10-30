@@ -83,6 +83,10 @@ function akari_page_fields( int $post_id ): array {
 			'akari_catch'      => array( 'label' => 'キャッチコピー（D8）', 'type' => 'text', 'max' => 24, 'help' => 'メインビジュアルに文字で重ねます' ),
 			'akari_mv_sp'      => array( 'label' => '1 メインビジュアル（スマホ 4:5）', 'type' => 'image' ),
 			'akari_mv_pc'      => array( 'label' => '1 メインビジュアル（PC 16:9）', 'type' => 'image' ),
+			'akari_lunch_text' => array( 'label' => '1.5 昼の燈りの文', 'type' => 'textarea', 'rows' => 2 ),
+			'akari_lunch_img'  => array( 'label' => '1.5 昼の写真（蕎麦）', 'type' => 'image' ),
+			'akari_night_text' => array( 'label' => '1.5 夜の燈りの文', 'type' => 'textarea', 'rows' => 3 ),
+			'akari_night_img'  => array( 'label' => '1.5 夜の写真（天ぷら・酒）', 'type' => 'image' ),
 			'akari_party_text' => array( 'label' => '2 宴会・会食・貸切の文', 'type' => 'textarea', 'rows' => 3 ),
 			'akari_party_img'  => array( 'label' => '2 席の引きの写真', 'type' => 'image' ),
 			'akari_picks'      => array(
@@ -107,8 +111,22 @@ function akari_page_fields( int $post_id ): array {
 					'month'  => array( 'label' => '掲載月', 'type' => 'month' ),
 				),
 			),
-			'akari_lunch_text' => array( 'label' => '8 昼の燈りの文', 'type' => 'textarea', 'rows' => 2 ),
-			'akari_lunch_img'  => array( 'label' => '8 蕎麦の写真', 'type' => 'image' ),
+		),
+		'about'   => array(
+			'akari_flour_text' => array( 'label' => '2 蕎麦粉の文', 'type' => 'textarea', 'rows' => 4 ),
+			'akari_flour_img'  => array( 'label' => '2 蕎麦粉・石臼の写真', 'type' => 'image' ),
+			'akari_daynight'   => array(
+				'label'  => '3 昼の蕎麦・夜の締めの蕎麦',
+				'type'   => 'rows',
+				'count'  => 2,
+				'fields' => array(
+					'title' => array( 'label' => '見出し', 'type' => 'text', 'max' => 16 ),
+					'text'  => array( 'label' => '文', 'type' => 'textarea', 'rows' => 3 ),
+					'image' => array( 'label' => '写真', 'type' => 'image' ),
+				),
+			),
+			'akari_owner_text' => array( 'label' => '4 店主の想い', 'type' => 'textarea', 'rows' => 5, 'help' => '11/4のインタビューから。空ならこのセクションを出さない' ),
+			'akari_owner_img'  => array( 'label' => '4 写真（顔出しはD9次第。決まるまでは手元の写真）', 'type' => 'image' ),
 		),
 		'menu'    => array(
 			'akari_sake_note' => array( 'label' => '日本酒の入れ替えの注記', 'type' => 'text', 'help' => '例：日本酒は月替わりで入れ替わります' ),

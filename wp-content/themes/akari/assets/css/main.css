@@ -164,7 +164,8 @@ table { border-collapse: collapse; width: 100%; }
 	margin-inline: auto;
 	padding-inline: var(--gutter);
 }
-.container--narrow { max-width: calc(760px + var(--gutter) * 2); }
+/* 読み物の幅は絞るが、左端は見出し（.container）とそろえる */
+.container--narrow > * { max-width: 760px; }
 .container .container--narrow { padding-inline: 0; margin-inline: 0; }
 
 .num,
@@ -341,7 +342,7 @@ time { font-variant-numeric: tabular-nums; }
 	}
 	.header-contact__tel {
 		display: grid;
-		grid-template-columns: auto auto;
+		grid-template-columns: 18px auto;
 		align-items: center;
 		column-gap: var(--space-1);
 		min-height: 44px;
@@ -360,8 +361,9 @@ time { font-variant-numeric: tabular-nums; }
 		display: inline-flex;
 		align-items: center;
 		min-height: 44px;
-		padding: 0 var(--space-3);
-		font-size: 0.9375rem;
+		padding: 0 var(--space-2);
+		font-size: 0.875rem;
+		white-space: nowrap;
 		text-decoration: none;
 		background-image: linear-gradient(var(--color-accent), var(--color-accent));
 		background-size: 0 2px;
@@ -369,12 +371,26 @@ time { font-variant-numeric: tabular-nums; }
 		background-repeat: no-repeat;
 		transition: background-size var(--motion);
 	}
-	.global-nav a[aria-current="page"] { background-size: calc(100% - 24px) 2px; }
-	.site-logo { margin-right: var(--space-5); }
+	.global-nav a[aria-current="page"] { background-size: calc(100% - 16px) 2px; }
+	.site-logo { margin-right: var(--space-4); }
 	.global-nav { margin-left: auto; }
+	/* 1280px未満は横幅が足りないため、電話受付の注記はパネル・本文側に任せ、ロゴと番号を少し小さくする */
+	.header-contact__note { display: none; }
+	.header-contact { gap: var(--space-3); }
+	.header-contact__num { font-size: 1rem; white-space: nowrap; }
+	.site-logo__text { font-size: 1.0625rem; letter-spacing: 0.08em; }
+}
+@media (min-width: 1280px) {
+	.header-contact__num { font-size: 1.125rem; }
+	.site-logo__text { font-size: 1.25rem; letter-spacing: 0.12em; }
+}
+@media (min-width: 1280px) {
+	.header-contact__note { display: block; white-space: nowrap; }
+	.global-nav a { padding: 0 var(--space-3); font-size: 0.9375rem; }
+	.global-nav a[aria-current="page"] { background-size: calc(100% - 24px) 2px; }
 }
 @media (hover: hover) and (min-width: 1024px) {
-	.global-nav a:hover { background-size: calc(100% - 24px) 2px; }
+	.global-nav a:hover { background-size: calc(100% - 16px) 2px; }
 }
 
 /* ハンバーガーのパネル（U-03） */
@@ -543,7 +559,29 @@ time { font-variant-numeric: tabular-nums; }
 	line-height: var(--lh-heading);
 	letter-spacing: 0.06em;
 }
-.hero__hours { font-size: var(--fs-xs); font-variant-numeric: tabular-nums; color: var(--color-on-night-sub); }
+.hero__times {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: var(--space-2) var(--space-4);
+	margin-bottom: var(--space-2);
+	padding: 0;
+	list-style: none;
+}
+.hero__times li { display: inline-flex; align-items: center; gap: var(--space-2); font-size: var(--fs-m); font-weight: 700; }
+.hero__times-label {
+	display: inline-grid;
+	place-items: center;
+	width: 1.9em;
+	height: 1.9em;
+	border: 1px solid var(--color-on-night);
+	border-radius: 50%;
+	font-family: var(--font-heading);
+	font-size: var(--fs-xs);
+	font-weight: 600;
+}
+.hero__times li:nth-child(2) .hero__times-label { background: var(--color-accent); border-color: var(--color-accent); color: var(--color-on-accent); }
+.hero__times-closed { font-size: var(--fs-xs) !important; font-weight: 400 !important; color: var(--color-on-night-sub); }
 .hero .cta-note { color: var(--color-on-night-sub); }
 .hero .btn--reserve { background: transparent; border-color: var(--color-on-night); color: var(--color-on-night); }
 @media (min-width: 768px) {
@@ -560,6 +598,44 @@ time { font-variant-numeric: tabular-nums; }
 	}
 	.hero .cta__item { min-width: 300px; }
 }
+
+/* 昼の燈り・夜の燈り（昼も夜も見せ、夜を大きく） */
+.daynight__grid { display: grid; gap: var(--space-4); }
+@media (min-width: 768px) { .daynight__grid { grid-template-columns: 2fr 3fr; align-items: stretch; } }
+.daynight__card {
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
+	border-radius: var(--radius-m);
+}
+.daynight__card--lunch { background: var(--color-surface); }
+.daynight__card--night {
+	background: var(--color-night);
+	color: var(--color-on-night);
+	--color-focus: var(--color-on-night);
+}
+.daynight__card--night a { color: var(--color-on-night); }
+.daynight__body { display: flex; flex-direction: column; flex: 1; padding: var(--space-5); }
+.daynight__body p { max-width: var(--measure); }
+.daynight__label {
+	align-self: flex-start;
+	margin-bottom: var(--space-3);
+	padding: 2px var(--space-3);
+	border: 1px solid currentColor;
+	border-radius: 999px;
+	font-size: var(--fs-xs);
+	font-weight: 700;
+	letter-spacing: 0.08em;
+}
+.daynight__card--night .daynight__label { background: var(--color-accent); border-color: var(--color-accent); color: var(--color-on-accent); }
+.daynight__title { font-size: var(--fs-l); margin-bottom: var(--space-2); }
+.daynight__card--night .daynight__title { font-size: var(--fs-xl); }
+.daynight__hours { font-weight: 700; font-size: var(--fs-m); }
+.daynight__card--night .daynight__hours { color: var(--color-accent); }
+.daynight__more { margin-top: auto; margin-bottom: 0; padding-top: var(--space-3); }
+
+.style-card__img { margin: calc(var(--space-5) * -1) calc(var(--space-5) * -1) var(--space-4); }
+.style-card { overflow: hidden; }
 
 /* 夜のおすすめ3品 */
 .pick-list { display: grid; gap: var(--space-6); padding: 0; list-style: none; }
