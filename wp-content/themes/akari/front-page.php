@@ -4,8 +4,9 @@
  * セクション0（臨時休業の帯）は header.php。1〜10をこの順で組む。
  * 昼も夜も営業していることを最初に見せるため、1の直後に「昼の燈り・夜の燈り」（1.5）を置き、
  * 旧セクション8（昼の燈り）はそこへまとめた（夜のカードを大きく扱う）。
- * 本文中の予約ボタンはセクション1・2・9の3か所だけ。条件を満たさない3・5・6・7・10は出さない。
- * 1〜4は夜の地で通し、5以降で生成りに戻す（2026-10-30 デザイン刷新方針 第1段。セクションの順は変えていない）。
+ * 本文中の予約ボタンはセクション1・2・9の3か所だけ。条件を満たさない1.2・3・6・10は出さない。
+ * 1.5〜4は夜の地、6以降は生成り（2026-10-30 デザイン刷新方針 第1段）。
+ * 2026-10-31 店主依頼：今月の月替わりをMVの次（1.2）へ移し、お客様の声（旧7）は削除。MVにロゴを入れる。
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -21,7 +22,6 @@ $akari_access  = akari_page_url( 'access' );
 $akari_courses = akari_get_courses( 'night' );
 $akari_monthly = akari_get_monthly( 1 );
 $akari_picks   = akari_rows( 'akari_picks', 'title', $akari_front );
-$akari_voices  = akari_rows( 'akari_voices', 'quote', $akari_front );
 $akari_news    = get_posts(
 	array(
 		'post_type'      => 'post',
@@ -60,7 +60,28 @@ $akari_times = array_filter(
 		</picture>
 	<?php endif; ?>
 	<div class="hero__body container">
-		<h1 class="hero__title"><?php echo esc_html( akari_store( 'name' ) ); ?><span>三鷹駅北口の蕎麦屋</span></h1>
+		<?php $akari_logo = (int) akari_field( 'akari_mv_logo', $akari_front ); ?>
+		<?php if ( $akari_logo ) : ?>
+			<?php /* ロゴがあるときは店名をロゴ画像の代替テキストにする（H1の文言は変えない） */ ?>
+			<h1 class="hero__title has-logo">
+				<?php
+				echo wp_get_attachment_image( // phpcs:ignore WordPress.Security.EscapeOutput
+					$akari_logo,
+					'full',
+					false,
+					array(
+						'class'    => 'hero__logo',
+						'alt'      => akari_store( 'name' ),
+						'loading'  => false,
+						'decoding' => 'async',
+					)
+				);
+				?>
+				<span>三鷹駅北口の蕎麦屋</span>
+			</h1>
+		<?php else : ?>
+			<h1 class="hero__title"><?php echo esc_html( akari_store( 'name' ) ); ?><span>三鷹駅北口の蕎麦屋</span></h1>
+		<?php endif; ?>
 		<?php if ( $akari_catch ) : ?>
 			<p class="hero__catch"><?php echo akari_phrases( $akari_catch ); // phpcs:ignore WordPress.Security.EscapeOutput ?></p>
 		<?php endif; ?>
@@ -82,6 +103,28 @@ $akari_times = array_filter(
 		<p class="hero__anchor"><a class="more-link more-link--down" href="#party">ご宴会・貸切のご相談</a></p>
 	</div>
 </section>
+
+<?php /* 1.2 今月の月替わり（MVの次。0件なら出さない） */ ?>
+<?php if ( $akari_monthly ) : ?>
+	<section class="section section--surface" aria-labelledby="top-monthly">
+		<div class="container">
+			<h2 class="section-title" id="top-monthly">今月の月替わり</h2>
+			<?php
+			get_template_part(
+				'template-parts/monthly-list',
+				null,
+				array(
+					'mode'  => 'top',
+					'items' => $akari_monthly,
+				)
+			);
+			?>
+			<?php if ( $akari_menu ) : ?>
+				<p class="section-more"><?php echo akari_more_link( $akari_menu . '#monthly', 'お品書きを見る' ); // phpcs:ignore WordPress.Security.EscapeOutput ?></p>
+			<?php endif; ?>
+		</div>
+	</section>
+<?php endif; ?>
 
 <?php /* 1.5 昼の燈り・夜の燈り（昼も夜も営業していることを見せ、夜を大きく扱う） */ ?>
 <?php
@@ -229,28 +272,6 @@ $akari_night_img = (int) akari_field( 'akari_night_img', $akari_front );
 	</section>
 <?php endif; ?>
 
-<?php /* 5 今月の月替わり（0件なら出さない） */ ?>
-<?php if ( $akari_monthly ) : ?>
-	<section class="section section--surface" aria-labelledby="top-monthly">
-		<div class="container">
-			<h2 class="section-title" id="top-monthly">今月の月替わり</h2>
-			<?php
-			get_template_part(
-				'template-parts/monthly-list',
-				null,
-				array(
-					'mode'  => 'top',
-					'items' => $akari_monthly,
-				)
-			);
-			?>
-			<?php if ( $akari_menu ) : ?>
-				<p class="section-more"><?php echo akari_more_link( $akari_menu . '#monthly', 'お品書きを見る' ); // phpcs:ignore WordPress.Security.EscapeOutput ?></p>
-			<?php endif; ?>
-		</div>
-	</section>
-<?php endif; ?>
-
 <?php /* 6 蕎麦へのこだわり（素材がなければ出さない） */ ?>
 <?php
 $akari_about_text = (string) akari_field( 'akari_about_text', $akari_front );
@@ -271,16 +292,6 @@ $akari_about_img  = (int) akari_field( 'akari_about_img', $akari_front );
 					<p class="section-more"><?php echo akari_more_link( akari_page_url( 'about' ), '蕎麦へのこだわりを見る' ); // phpcs:ignore WordPress.Security.EscapeOutput ?></p>
 				<?php endif; ?>
 			</div>
-		</div>
-	</section>
-<?php endif; ?>
-
-<?php /* 7 お客様の声（0件なら出さない） */ ?>
-<?php if ( $akari_voices ) : ?>
-	<section class="section section--surface" aria-labelledby="top-voice">
-		<div class="container">
-			<h2 class="section-title" id="top-voice">お客様の声</h2>
-			<?php get_template_part( 'template-parts/voice-list', null, array( 'voices' => $akari_voices ) ); ?>
 		</div>
 	</section>
 <?php endif; ?>

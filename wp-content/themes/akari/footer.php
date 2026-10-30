@@ -1,7 +1,7 @@
 <?php
 /**
  * フッター（C-03、F-09）とスマホの固定バー（U-04、F-03）。
- * 値はすべて共通設定から出す。Instagramへのリンクはヘッダー（ロゴの隣）とフッターに置く（2026-10-31 店主依頼でヘッダーにも追加）。
+ * 値はすべて共通設定から出す。Instagramへのリンクはヘッダー右上とフッターに、同じアイコンで置く（2026-10-31 店主依頼）。
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -59,7 +59,7 @@ $akari_news_id = (int) get_option( 'page_for_posts' );
 					<li><a href="<?php echo esc_url( akari_store( 'map_url' ) ); ?>" target="_blank" rel="noopener" data-track="map" data-location="footer">Googleマップ<span class="screen-reader-text">（新しいタブで開きます）</span></a></li>
 				<?php endif; ?>
 				<?php if ( akari_store( 'instagram_url' ) ) : ?>
-					<li><a href="<?php echo esc_url( akari_store( 'instagram_url' ) ); ?>" target="_blank" rel="noopener" data-track="sns" data-location="footer">Instagram（@<?php echo esc_html( basename( untrailingslashit( (string) wp_parse_url( akari_store( 'instagram_url' ), PHP_URL_PATH ) ) ) ); ?>）<span class="screen-reader-text">（新しいタブで開きます）</span></a></li>
+					<li><a class="footer-insta" href="<?php echo esc_url( akari_store( 'instagram_url' ) ); ?>" target="_blank" rel="noopener" data-track="sns" data-location="footer"><?php echo akari_icon( 'instagram' ); // phpcs:ignore WordPress.Security.EscapeOutput ?>Instagram（@<?php echo esc_html( basename( untrailingslashit( (string) wp_parse_url( akari_store( 'instagram_url' ), PHP_URL_PATH ) ) ) ); ?>）<span class="screen-reader-text">（新しいタブで開きます）</span></a></li>
 				<?php endif; ?>
 			</ul>
 		</div>

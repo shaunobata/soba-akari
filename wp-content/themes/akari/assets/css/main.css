@@ -316,36 +316,10 @@ time { font-variant-numeric: tabular-nums; }
 	white-space: nowrap;
 }
 
-/* Instagram（ロゴの隣）。SPはアイコンだけ、1280px以上で文字も出す */
-.site-logo { margin-right: 0; }
-.header-insta {
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-	gap: var(--space-1);
-	min-width: 44px;
-	min-height: 44px;
-	margin-right: auto;
-	color: var(--color-ink);
-	font-size: var(--fs-xs);
-	white-space: nowrap;
-	text-decoration: none;
-}
-.header-insta .icon { width: 22px; height: 22px; }
-.header-insta__label { display: none; }
-@media (max-width: 399px) {
+/* 狭い幅では、右上のアイコン3つ（Instagram・電話・メニュー）が収まるようロゴを詰める */
+@media (max-width: 419px) {
 	.site-logo__text { font-size: 1rem; letter-spacing: 0.06em; }
 	.site-header__inner { gap: var(--space-1); }
-}
-@media (min-width: 1024px) {
-	.header-insta { margin-right: 0; }
-}
-@media (min-width: 1280px) {
-	.header-insta { padding-inline: var(--space-2); }
-	.header-insta__label { display: inline; }
-}
-@media (hover: hover) {
-	.header-insta:hover .header-insta__label { text-decoration: underline; }
 }
 
 .header-icon {
@@ -367,6 +341,10 @@ time { font-variant-numeric: tabular-nums; }
 .header-icon__label { font-size: 0.6875rem; line-height: 1.2; }
 .header-icon--tel { color: var(--color-ink); }
 .header-icon--tel .icon { color: var(--color-accent-deep); }
+.header-icon--insta .icon { width: 22px; height: 22px; margin-bottom: 1px; }
+@media (min-width: 768px) {
+	.header-icon--insta { margin-left: var(--space-1); }
+}
 
 .global-nav,
 .header-contact { display: none; }
@@ -629,6 +607,13 @@ time { font-variant-numeric: tabular-nums; }
 	line-height: var(--lh-heading);
 	letter-spacing: 0.06em;
 }
+/* ロゴ（背景が透明な画像）。読みやすさのため薄い影を付ける */
+.hero__title.has-logo { margin-bottom: var(--space-4); }
+.hero__logo {
+	width: clamp(120px, 30vw, 180px);
+	height: auto;
+	filter: drop-shadow(0 2px 8px rgba(22, 19, 15, 0.6));
+}
 /* 句の途中で折り返さない（読点・句点の後でだけ改行する） */
 .hero__phrase { display: inline-block; }
 .hero__vertical { display: none; }
@@ -825,18 +810,14 @@ time { font-variant-numeric: tabular-nums; }
    9. コースカード（U-08）
    -------------------------------------------------------------------------- */
 .course-list { display: grid; gap: var(--space-6); }
-/* 件数で組みを変える（コース・お客様の声）：1件は中央寄せの幅広、2件は2列、3件以上は3列。空き枠を出さない */
+/* 件数で組みを変える：1件は中央寄せの幅広、2件は2列、3件以上は3列。空き枠を出さない */
 @media (min-width: 768px) {
-	.course-list,
-	.voice-list { display: flex; flex-wrap: wrap; justify-content: center; }
-	.course-list > *,
-	.voice-list > * { flex: 1 1 calc(50% - var(--space-6)); max-width: 720px; }
+	.course-list { display: flex; flex-wrap: wrap; justify-content: center; }
+	.course-list > * { flex: 1 1 calc(50% - var(--space-6)); max-width: 720px; }
 }
 @media (min-width: 1024px) {
 	.course-list > :first-child:nth-last-child(n+3),
-	.course-list > :first-child:nth-last-child(n+3) ~ *,
-	.voice-list > :first-child:nth-last-child(n+3),
-	.voice-list > :first-child:nth-last-child(n+3) ~ * { flex-basis: calc(33.333% - var(--space-6)); }
+	.course-list > :first-child:nth-last-child(n+3) ~ * { flex-basis: calc(33.333% - var(--space-6)); }
 }
 .course-list--full .course-list__item { display: flex; flex-direction: column; }
 .course-list--full .cta { margin-bottom: 0; grid-template-columns: 1fr; }
@@ -1210,29 +1191,6 @@ time { font-variant-numeric: tabular-nums; }
 .post-nav a { display: block; padding: var(--space-3); border: 1px solid var(--color-line); border-radius: var(--radius-m); text-decoration: none; }
 .post-nav span { display: block; font-size: var(--fs-xs); color: var(--color-ink-sub); }
 
-/* お客様の声（U-14） */
-.voice-list { display: grid; gap: var(--space-4); padding: 0; list-style: none; }
-.voice {
-	position: relative;
-	height: 100%;
-	margin: 0;
-	padding: var(--space-6) var(--space-5) var(--space-5);
-	border-radius: var(--radius-m);
-	background: var(--color-bg);
-}
-.voice__mark {
-	position: absolute;
-	top: 0;
-	left: var(--space-4);
-	font-family: var(--font-heading);
-	font-size: 3rem;
-	line-height: 1;
-	color: var(--color-accent-deep);
-}
-.voice__quote { margin: 0 0 var(--space-3); }
-.voice__quote p:last-child { margin-bottom: 0; }
-.voice__source { font-size: var(--fs-xs); color: var(--color-ink-sub); }
-
 /* 口コミのお願い・404 */
 .review-page { padding-top: var(--space-7); text-align: center; }
 .review-page .entry-content { margin-inline: auto; margin-top: var(--space-5); }
@@ -1277,6 +1235,8 @@ time { font-variant-numeric: tabular-nums; }
 .footer-nav a,
 .footer-external a { display: flex; align-items: center; min-height: 44px; }
 .footer-nav:focus { outline: none; }
+.footer-external .footer-insta { gap: var(--space-2); }
+.footer-insta .icon { width: 20px; height: 20px; }
 .footer-external { padding-top: var(--space-4); border-top: 1px solid rgba(243, 236, 223, 0.16); }
 .site-footer__copy { margin: 0; padding: var(--space-5) var(--gutter); text-align: center; color: var(--color-on-night-sub); }
 

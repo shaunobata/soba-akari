@@ -26,14 +26,6 @@ $akari_nav = akari_nav_items();
 			<span class="site-logo__text"><?php echo esc_html( akari_store( 'name' ) ); ?></span>
 		</a>
 
-		<?php if ( akari_store( 'instagram_url' ) ) : ?>
-			<a class="header-insta" href="<?php echo esc_url( akari_store( 'instagram_url' ) ); ?>" target="_blank" rel="noopener" data-track="sns" data-location="header">
-				<?php echo akari_icon( 'instagram' ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
-				<span class="header-insta__label">Instagram</span>
-				<span class="screen-reader-text">（新しいタブで開きます）</span>
-			</a>
-		<?php endif; ?>
-
 		<?php if ( $akari_nav ) : ?>
 			<nav class="global-nav" aria-label="メインメニュー">
 				<ul>
@@ -56,6 +48,15 @@ $akari_nav = akari_nav_items();
 			<?php endif; ?>
 			<?php echo akari_reserve_button( array( 'location' => 'header', 'class' => 'btn--sm' ) ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
 		</div>
+
+		<?php /* Instagram は右上（電話・メニューと同じアイコン＋文字の形） */ ?>
+		<?php if ( akari_store( 'instagram_url' ) ) : ?>
+			<a class="header-icon header-icon--insta" href="<?php echo esc_url( akari_store( 'instagram_url' ) ); ?>" target="_blank" rel="noopener" data-track="sns" data-location="header">
+				<?php echo akari_icon( 'instagram' ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
+				<span class="header-icon__label">Instagram</span>
+				<span class="screen-reader-text">（新しいタブで開きます）</span>
+			</a>
+		<?php endif; ?>
 
 		<?php if ( akari_store( 'tel' ) ) : ?>
 			<a class="header-icon header-icon--tel" href="tel:<?php echo esc_attr( akari_store( 'tel_link' ) ); ?>" data-track="tel" data-location="header">

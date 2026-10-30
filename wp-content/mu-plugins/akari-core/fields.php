@@ -83,6 +83,7 @@ function akari_page_fields( int $post_id ): array {
 			'akari_catch'      => array( 'label' => 'キャッチコピー（D8）', 'type' => 'text', 'max' => 24, 'help' => 'メインビジュアルに文字で重ねます' ),
 			'akari_mv_sp'      => array( 'label' => '1 メインビジュアル（スマホ 4:5）', 'type' => 'image' ),
 			'akari_mv_pc'      => array( 'label' => '1 メインビジュアル（PC 16:9）', 'type' => 'image' ),
+			'akari_mv_logo'    => array( 'label' => '1 メインビジュアルのロゴ', 'type' => 'image', 'help' => '背景が透明なPNG（幅360px以上）。空なら店名を文字で出します' ),
 			'akari_lunch_text' => array( 'label' => '1.5 昼の燈りの文', 'type' => 'textarea', 'rows' => 2 ),
 			'akari_lunch_img'  => array( 'label' => '1.5 昼の写真（蕎麦）', 'type' => 'image' ),
 			'akari_night_text' => array( 'label' => '1.5 夜の燈りの文', 'type' => 'textarea', 'rows' => 3 ),
@@ -101,16 +102,7 @@ function akari_page_fields( int $post_id ): array {
 			),
 			'akari_about_text' => array( 'label' => '6 蕎麦へのこだわりの文', 'type' => 'textarea', 'rows' => 3, 'help' => '文と写真の両方が空ならセクションごと出しません' ),
 			'akari_about_img'  => array( 'label' => '6 蕎麦を打つ手元の写真', 'type' => 'image' ),
-			'akari_voices'     => array(
-				'label'  => '7 お客様の声（店主と選んだ口コミを原文のまま）',
-				'type'   => 'rows',
-				'count'  => 3,
-				'fields' => array(
-					'quote'  => array( 'label' => '引用文', 'type' => 'textarea', 'max' => 200, 'rows' => 3, 'help' => '言い換えない。長いときは前後を「…」で省く' ),
-					'source' => array( 'label' => '出典', 'type' => 'select', 'choices' => array( 'Google' => 'Google', '食べログ' => '食べログ' ) ),
-					'month'  => array( 'label' => '掲載月', 'type' => 'month' ),
-				),
-			),
+			// お客様の声（旧7）は 2026-10-31 店主依頼で削除
 		),
 		'about'   => array(
 			'akari_flour_text' => array( 'label' => '2 蕎麦粉の文', 'type' => 'textarea', 'rows' => 4 ),
